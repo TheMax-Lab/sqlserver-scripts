@@ -1,28 +1,68 @@
-# SQL Server Scripts & Utilities
-A practical collection of SQL Server scripts for DBAs, developers and data engineers — performance tuning, index analysis, query troubleshooting, database integrity and schema health checks.
+# SQL Server Schema Diagnostics
 
----
+T-SQL scripts for identifying database schema patterns that may deserve further investigation.
 
-## 📊 Script Overview
+The goal is not to enforce a single database design, but to highlight potentially interesting objects and patterns.
 
-### 🏗️ Schema & Data Types
+## Scripts
 
-| Script | Description | Primary DMVs / Target |
-| --- | --- | --- |
-| [`schema_type_patterns.sql`](https://www.google.com/search?q=./schema/schema_type_patterns.sql) | Flags tables lacking Primary Keys, large Heaps, and legacy/unbounded LOB types. | `sys.tables`, `sys.columns`, `sys.types` |
+| Script | Purpose |
+|---|---|
+| [`schema_type_patterns.sql`](schema_type_patterns.sql) | Identifies schema patterns involving Primary Keys, heaps, legacy data types, and MAX data types |
 
----
+## `schema_type_patterns.sql`
 
-## 🔍 Detailed Script Information
+Analyzes SQL Server metadata to identify potentially interesting schema patterns.
 
-### schema_type_patterns.sql
-Scans database schema design to identify potential structural issues impacting performance or data integrity.
+### Current checks
 
-* **Key Features:**
-  * **Missing Primary Keys:** Flags tables without a defined Primary Key.
-  * **Large Heaps:** Highlights tables without a Clustered Index that exceed 10,000 rows.
-  * **Legacy & Unbounded LOB Types:** Flags columns using deprecated types (`text`, `ntext`, `image`) or unbounded max length types (`varchar(max)`, `nvarchar(max)`, `varbinary(max)`).
+#### Missing Primary Keys
 
----
-## 🚀 Getting Started
-Feel free to clone this repository or copy individual scripts into SQL Server Management Studio (SSMS) or Azure Data Studio. Always test scripts in a non-production environment before applying them to live databases.
+Identifies tables without a defined Primary Key.
+
+A table without a Primary Key is not necessarily incorrect, but it may deserve review depending on its purpose and workload.
+
+#### Large Heaps
+
+Identifies tables without a clustered index above the configured row threshold.
+
+Heaps can be appropriate for certain workloads, so findings should be evaluated in context.
+
+#### Legacy Data Types
+
+Identifies deprecated SQL Server data types such as:
+
+- `text`
+- `ntext`
+- `image`
+
+These types may be candidates for modernization.
+
+#### MAX Data Types
+
+Identifies columns using:
+
+- `varchar(max)`
+- `nvarchar(max)`
+- `varbinary(max)`
+
+These data types are not inherently problematic, but their usage may deserve review depending on the application and data model.
+
+## Important
+
+The script reports **patterns and candidates for investigation**.
+
+It does not automatically classify a schema design as correct or incorrect.
+
+Database design decisions should consider:
+
+- application requirements
+- workload
+- data size
+- query patterns
+- compatibility requirements
+- SQL Server version
+
+[View script](schema_type_patterns.sql)
+
+[← Back to the main README](../README.md)
