@@ -1,28 +1,53 @@
-# SQL Server Scripts & Utilities
-A practical collection of SQL Server scripts for DBAs, developers and data engineers — performance tuning, index analysis, query troubleshooting, database integrity and schema health checks.
+# SQL Server Database Integrity Diagnostics
 
----
+SQL Server and T-SQL diagnostics for identifying potential Foreign Key and referential integrity issues.
 
-## 📊 Script Overview
+These scripts are designed to help DBAs and database developers identify objects that may require further investigation.
 
-### 🔒 Integrity & Constraints
+## Scripts
 
-| Script | Description | Primary DMVs / Target |
-| --- | --- | --- |
-| [`fk_analysis.sql`](https://www.google.com/search?q=./integrity/fk_analysis.sql) | Identifies unindexed, untrusted, or disabled Foreign Key constraints. | `sys.foreign_keys`, `sys.indexes` |
+| Script | Purpose |
+|---|---|
+| [`fk_analysis.sql`](fk_analysis.sql) | Analyzes Foreign Keys, supporting indexes, disabled constraints, and untrusted constraints |
 
----
+## `fk_analysis.sql`
 
-## 🔍 Detailed Script Information
+Analyzes Foreign Key constraints in the current database.
 
-### fk_analysis.sql
-Inspects Foreign Keys across the database to detect coverage, integrity, and status issues.
+The script can identify:
 
-* **Key Features:**
-  * **Unindexed FK Detection:** Finds Foreign Keys that lack a supporting index with matching leading columns (reducing child table lock contention).
-  * **Constraint Validation Check:** Identifies disabled constraints or untrusted constraints (`WITH NOCHECK`).
-  * **Auto-Fix Generation:** Supplies `ALTER TABLE ... WITH CHECK CHECK CONSTRAINT` statements for untrusted or disabled FKs.
+- Foreign Keys without supporting indexes
+- Disabled Foreign Keys
+- Untrusted Foreign Keys
+- Potential referential integrity issues
 
----
-## 🚀 Getting Started
-Feel free to clone this repository or copy individual scripts into SQL Server Management Studio (SSMS) or Azure Data Studio. Always test scripts in a non-production environment before applying them to live databases.
+### Why Foreign Key indexes matter
+
+Foreign Keys can have performance implications when SQL Server validates relationships between parent and child tables.
+
+Supporting indexes may be particularly important for workloads involving:
+
+- `DELETE`
+- `UPDATE`
+- large parent tables
+- large child tables
+- frequent referential integrity checks
+
+### Important
+
+A missing Foreign Key index is not automatically a performance problem.
+
+Review the workload, existing indexes, table size, query patterns, and maintenance strategy before creating a new index.
+
+[View script](fk_analysis.sql)
+
+## Recommended Workflow
+
+1. Run the analysis.
+2. Review the Foreign Key findings.
+3. Check existing indexes.
+4. Consider workload and table size.
+5. Test any proposed changes.
+6. Validate the impact before production deployment.
+
+[← Back to the main README](../README.md)
