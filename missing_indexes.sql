@@ -5,7 +5,6 @@ Description:      Identifies high-impact missing nonclustered indexes for the
                   (DMVs). Generates DDL scripts with priority levels.
                   
 Author:           TheMaxLab
-Created:          2026-09-02
 Version:          1.0
 License:          MIT
 
