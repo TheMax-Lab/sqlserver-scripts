@@ -1,3 +1,26 @@
+/*******************************************************************************
+Script Name:      missing_indexes.sql
+Description:      Identifies high-impact missing nonclustered indexes for the 
+                  current database using SQL Server Dynamic Management Views 
+                  (DMVs). Generates DDL scripts with priority levels.
+                  
+Author:           TheMaxLab
+Created:          2026-09-02
+Version:          1.0
+License:          MIT
+
+Usage:
+  1. Connect to the target SQL Server instance.
+  2. Select the database context: USE [YourDatabaseName];
+  3. Execute the script in SQL Server Management Studio (SSMS) or 
+     Azure Data Studio.
+     
+Notes:
+  - DMV statistics reset when the SQL Server service restarts.
+  - Review and test all generated DDL statements before applying them to
+    production environments.
+*******************************************************************************/
+
 SELECT TOP (100)
     CASE 
         WHEN gs.avg_total_user_cost * gs.avg_user_impact * (gs.user_seeks + gs.user_scans) >= 100000 THEN 'High' 
