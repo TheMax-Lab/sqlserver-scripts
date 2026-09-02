@@ -4,8 +4,7 @@ Description:      Analyzes SQL Server indexes for usage patterns, duplicate key
                   definitions, and physical fragmentation to identify cleanup or
                   maintenance opportunities.
                   
-Author:           [Your Name/Username]
-Created:          2026-09-02
+Author:           TheMaxLab
 Version:          1.0
 License:          MIT
 
