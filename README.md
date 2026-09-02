@@ -1,5 +1,5 @@
 # SQL Server Scripts & Utilities
-A curated collection of SQL Server scripts, T-SQL utilities, and administrative tools for database management, performance tuning, and maintenance.
+A practical collection of SQL Server scripts for DBAs, developers and data engineers — performance tuning, index analysis, query troubleshooting, database integrity and schema health checks.
 
 ---
 
