@@ -1,50 +1,78 @@
-## 📊 Script Overview
+# SQL Server Performance Diagnostics
 
-### ⚡ Performance Tuning
+SQL Server and T-SQL scripts for investigating query performance, indexes, execution plans, CPU usage, logical reads, and other common performance-related issues.
 
-| Script | Description | Primary DMVs / Target |
-| --- | --- | --- |
-| [`missing_indexes.sql`](https://www.google.com/search?q=./performance/missing_indexes.sql) | Identifies top missing nonclustered index candidates prioritized by impact. | `sys.dm_db_missing_index_*` |
-| [`index_analysis.sql`](https://www.google.com/search?q=./performance/index_analysis.sql) | Detects duplicate indexes, unused indexes, and physical fragmentation. | `sys.dm_db_index_usage_stats`, `sys.dm_db_index_physical_stats` |
-| [`query_plan_candidates.sql`](https://www.google.com/search?q=./performance/query_plan_candidates.sql) | Analyzes plan cache for implicit conversions, tempdb spills, and heavy scans. | `sys.dm_exec_query_stats`, `sys.dm_exec_query_plan` |
+These scripts are designed for **diagnostics and investigation**. They do not automatically modify your database.
 
----
+## Scripts
 
-## 🔍 Detailed Script Information
+| Script | Purpose |
+|---|---|
+| [`missing_indexes.sql`](missing_indexes.sql) | Finds potential missing nonclustered indexes |
+| [`index_analysis.sql`](index_analysis.sql) | Analyzes index usage, duplicates, and fragmentation |
+| [`query_plan_candidates.sql`](query_plan_candidates.sql) | Finds potentially expensive queries and execution-plan patterns |
 
-### missing_indexes.sql
-Queries Dynamic Management Views (DMVs) to identify top missing nonclustered index candidates for the current database, prioritized by estimated performance impact.
+## `missing_indexes.sql`
 
-* **Key Features:**
-  * **Priority Calculation:** Categorizes index recommendations as `High`, `Medium`, or `Low` based on seeking activity, user impact percentage, and average query cost.
-  * **Automated DDL Generation:** Provides a ready-to-use `CREATE NONCLUSTERED INDEX` statement (`SuggestedSql`) including equality, inequality, and included columns.
-  * **Risk Assessment:** Outlines potential trade-offs (storage growth, write overhead for DML statements) before applying recommendations.
-  * **Execution Evidence:** Shows total seeks, scans, impact percentage, and last seek timestamp.
+Identifies potential missing nonclustered indexes using SQL Server missing-index DMVs.
 
-> ⚠️ **Note:** Missing index DMVs reset upon SQL Server restart. Always validate suggested indexes against existing index strategies and test them under full workload conditions before creating them in production.
+Useful for:
 
-### index_analysis.sql
-Evaluates nonclustered index health across three key areas: usage metrics, duplicate key definitions, and physical fragmentation levels.
+- identifying high-impact index candidates
+- reviewing equality and inequality columns
+- analyzing included columns
+- understanding missing-index recommendations
 
-* **Key Features:**
-  * **Duplicate Detection:** Identifies indexes that share identical key column signatures to help eliminate redundant write overhead.
-  * **Unused Index Identification:** Highlights write-heavy indexes that receive zero seek, scan, or lookup operations.
-  * **Fragmentation Analysis:** Scans physical fragmentation using `LIMITED` mode and generates target maintenance commands (`REORGANIZE` or `REBUILD`).
-  * **Safety First:** Does **not** auto-generate `DROP` statements for unused or duplicate indexes, forcing a manual review to prevent accidental removal of constraints or periodic workload dependencies.
+> Missing-index DMVs provide recommendations, not guaranteed solutions.
 
-> ⚠️ **Note:** Usage statistics (`sys.dm_db_index_usage_stats`) reset on SQL Server service restarts. Ensure the instance has been running under normal workload conditions before acting on unused index findings.
+Always validate proposed indexes against the existing indexing strategy and real workload.
 
-### query_plan_candidates.sql
-Searches the query plan cache for resource-intensive queries exhibiting performance anti-patterns.
+[View script](missing_indexes.sql)
 
-* **Key Features:**
-  * **Anti-Pattern Detection:** Flags implicit data type conversions (`CONVERT_IMPLICIT`), TempDB spills (`SpillToTempDb`), and costly scans.
-  * **Metric Aggregation:** Displays total executions, average CPU time (ms), and average logical reads.
-  * **Safe Recommendations:** Does not auto-generate code fixes, encouraging manual execution plan XML inspection.
+## `index_analysis.sql`
 
-> ⚠️ **Note:** Plan cache statistics are transient and cleared during service restarts or memory pressure.
+Analyzes nonclustered indexes for:
 
+- index usage
+- duplicate definitions
+- fragmentation
+- read/write activity
+- maintenance candidates
 
----
-## 🚀 Getting Started
-Feel free to clone this repository or copy individual scripts into SQL Server Management Studio (SSMS) or Azure Data Studio. Always test scripts in a non-production environment before applying them to live databases.
+The script does not automatically drop indexes.
+
+An apparently unused index may still be required by an infrequent workload, reporting process, maintenance task, or other database operation.
+
+[View script](index_analysis.sql)
+
+## `query_plan_candidates.sql`
+
+Searches the SQL Server plan cache for potentially problematic execution patterns, including:
+
+- implicit conversions
+- TempDB spills
+- expensive scans
+- high CPU usage
+- high logical reads
+
+The results should be treated as candidates for further investigation.
+
+[View script](query_plan_candidates.sql)
+
+## Recommended Workflow
+
+1. Run the diagnostic script.
+2. Review the findings.
+3. Validate the evidence.
+4. Check the existing database design.
+5. Test potential changes.
+6. Measure the impact.
+7. Apply changes only when justified.
+
+## Important
+
+These scripts inspect SQL Server metadata and runtime information. Some DMV data is transient and may be reset after a SQL Server restart or other events.
+
+Always test changes before applying them to production.
+
+[← Back to the main README](../README.md)
