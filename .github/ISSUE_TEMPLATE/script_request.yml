@@ -1,0 +1,28 @@
+name: Script request
+description: Suggest a new SQL Server diagnostic
+title: "[Script request]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: DBA problem to investigate
+      description: Describe the production/troubleshooting question, not only the query you want.
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Useful output
+      description: What evidence should the script return?
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: SQL Server versions / platforms
+      placeholder: "2019, 2022, Azure SQL MI..."
+  - type: textarea
+    id: safety
+    attributes:
+      label: Performance or safety considerations
