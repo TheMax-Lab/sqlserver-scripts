@@ -1,20 +1,15 @@
-/*******************************************************************************  
-Script Name:      tempdb_usage.sql  
-Description:      Reports overall tempdb data-file utilization and the top  
-                  user sessions consuming tempdb space.  
-Author:           TheMaxLab  
-Version:          1.0  
-License:          MIT  
-  
-Usage:  
-  1. Connect to the target SQL Server instance.  
-  2. Execute the script in SSMS or Azure Data Studio.  
-  3. The results are server-wide because tempdb is shared by all databases.  
-  
-Thresholds:  
-  - Elevated overall utilization: 70 percent.  
-  - High overall utilization: 85 percent.  
-  - Session candidates: at least 10 MB net tempdb usage.  
+/*******************************************************************************
+Script Name: tempdb_usage.sql
+Purpose: Reports overall tempdb data-file utilization and the top user sessions consuming tempdb space.
+Scope: SQL Server instance; tempdb
+SQL Server: 2016+
+Azure SQL: Azure SQL support varies for instance-level DMVs; see docs/COMPATIBILITY.md
+Permissions: VIEW SERVER STATE or VIEW DATABASE STATE, depending on scope; SQL Server 2022+ may require the corresponding PERFORMANCE STATE permission
+Risk: Read-only; review and test any generated SQL before execution.
+Output: Overall tempdb, file-level, and top-session findings
+Author: TheMax-Lab
+Version: 1.0
+License: MIT
 *******************************************************************************/  
   
 ;WITH FileUsage AS  

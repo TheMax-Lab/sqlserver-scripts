@@ -3,10 +3,10 @@ Script Name: memory_pressure.sql
 Purpose: Provides a compact SQL Server/OS memory pressure snapshot.
 Scope: SQL Server instance
 SQL Server: 2016+
-Permissions:
-- SQL Server 2019 and earlier: VIEW SERVER STATE
-- SQL Server 2022 and later: VIEW SERVER PERFORMANCE STATE
-Risk: Read-only
+Azure SQL: Azure SQL support varies for instance-level DMVs; see docs/COMPATIBILITY.md
+Permissions: VIEW SERVER STATE or VIEW DATABASE STATE, depending on scope; SQL Server 2022+ may require the corresponding PERFORMANCE STATE permission
+Risk: Read-only; review and test any generated SQL before execution.
+Output: Memory summary and top memory clerks
 Author: TheMax-Lab
 Version: 1.0
 License: MIT

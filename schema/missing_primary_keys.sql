@@ -1,17 +1,15 @@
-/*******************************************************************************  
-Script Name:      missing_primary_keys.sql  
-Description:      Finds user tables without a primary key and reports row count,  
-                   storage type, unique indexes, and incoming foreign keys.  
-                   Temporal history tables are excluded because they normally  
-                   cannot have a primary key.  
-Author:           TheMAxLab  
-Version:          1.0  
-License:          MIT  
-  
-Usage:  
-  1. Connect to the target SQL Server instance.  
-  2. Select the database context: USE [YourDatabaseName];  
-  3. Execute the script in SSMS or Azure Data Studio.  
+/*******************************************************************************
+Script Name: missing_primary_keys.sql
+Purpose: Finds user tables without a primary key and reports row count, storage type, unique indexes, and incoming foreign keys. Temporal history tables are excluded because they normally cannot have a primary key.
+Scope: Current database
+SQL Server: 2016+
+Azure SQL: Azure SQL Database and Managed Instance; see docs/COMPATIBILITY.md
+Permissions: Metadata visibility; physical-statistics scripts require VIEW DATABASE STATE
+Risk: Read-only; review and test any generated SQL before execution.
+Output: Priority, Category, Object, Finding, Evidence, Recommendation, SuggestedSql, Risk
+Author: TheMax-Lab
+Version: 1.0
+License: MIT
 *******************************************************************************/  
   
 ;WITH TableRows AS  

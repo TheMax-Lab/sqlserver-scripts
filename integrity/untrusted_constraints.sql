@@ -1,16 +1,15 @@
-/*******************************************************************************  
-Script Name:      untrusted_constraints.sql  
-Description:      Finds disabled or untrusted FOREIGN KEY and CHECK constraints.  
-                   Untrusted constraints cannot be safely used by the optimizer  
-                   and may indicate that existing data has not been validated.  
-Author:           TheMAxLab  
-Version:          1.0  
-License:          MIT  
-  
-Usage:  
-  1. Connect to the target SQL Server instance.  
-  2. Select the database context: USE [YourDatabaseName];  
-  3. Execute the script in SSMS or Azure Data Studio.  
+/*******************************************************************************
+Script Name: untrusted_constraints.sql
+Purpose: Finds disabled or untrusted FOREIGN KEY and CHECK constraints. Untrusted constraints cannot be safely used by the optimizer and may indicate that existing data has not been validated.
+Scope: Current database
+SQL Server: 2016+
+Azure SQL: Azure SQL Database and Managed Instance; see docs/COMPATIBILITY.md
+Permissions: Metadata visibility; orphan scans also require SELECT on participating tables
+Risk: Read-only; review and test any generated SQL before execution.
+Output: Priority, Category, Object, Finding, Evidence, Recommendation, SuggestedSql, Risk
+Author: TheMax-Lab
+Version: 1.0
+License: MIT
 *******************************************************************************/  
   
 ;WITH ConstraintFindings AS  

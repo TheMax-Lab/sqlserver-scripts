@@ -1,499 +1,172 @@
-# SQL Server Database Diagnostics Toolkit
+# SQL Server Scripts for DBAs
 
-[![SQL Server](https://img.shields.io/badge/SQL%20Server-T--SQL-red?logo=microsoftsqlserver)](https://www.microsoft.com/sql-server)
-[![License](https://img.shields.io/github/license/TheMax-Lab/sqlserver-scripts)](LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/TheMax-Lab/sqlserver-scripts?style=flat)](https://github.com/TheMax-Lab/sqlserver-scripts/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/TheMax-Lab/sqlserver-scripts?style=flat)](https://github.com/TheMax-Lab/sqlserver-scripts/network/members)
+<p align="center">
+  <img src="sqlserver-scripts.jpg" alt="SQL Server Scripts — practical T-SQL diagnostics for DBAs" width="100%">
+</p>
 
-Practical **SQL Server and T-SQL diagnostic scripts** for investigating database performance, indexing, query execution, integrity, and schema design.
+<p align="center">
+  <a href="https://www.microsoft.com/sql-server"><img alt="SQL Server" src="https://img.shields.io/badge/SQL%20Server-2016%2B-CC2927?logo=microsoftsqlserver&logoColor=white"></a>
+  <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
+  <img alt="T-SQL scripts" src="https://img.shields.io/badge/T--SQL%20scripts-26-informational">
+  <a href="https://github.com/TheMax-Lab/sqlserver-scripts/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/TheMax-Lab/sqlserver-scripts?style=flat"></a>
+</p>
 
-Built for **DBAs, database developers, data engineers, and SQL Server professionals** who need focused queries to identify potential issues and turn database metadata into actionable findings.
+A curated collection of **26 read-only SQL Server scripts for DBAs** covering database health checks, performance tuning, blocking, Query Store, indexes, TempDB, integrity, backups, statistics, capacity, and schema design.
 
-> **Find the issue → understand the evidence → review the recommendation → decide what to do.**
+Each script is standalone: open it in SQL Server Management Studio (SSMS), Azure Data Studio, or another T-SQL client, select the correct database context, and review the evidence. Scripts do not automatically change user databases. When corrective SQL is useful, it is returned as text for review.
 
----
+> **Find the issue → understand the evidence → validate the recommendation → make an informed change.**
 
-## 🔎 What Does It Detect?
+## Find the right SQL Server script
 
-The toolkit currently includes diagnostics for:
+| DBA problem | Start with |
+|---|---|
+| SQL Server is slow and the cause is unknown | [`database_health.sql`](diagnostics/database_health.sql), [`wait_stats.sql`](diagnostics/wait_stats.sql) |
+| Sessions are blocked | [`blocking_sessions.sql`](diagnostics/blocking_sessions.sql), [`open_transactions.sql`](diagnostics/open_transactions.sql) |
+| A query is running too long | [`long_running_queries.sql`](diagnostics/long_running_queries.sql), [`expensive_queries.sql`](performance/expensive_queries.sql) |
+| CPU usage is high | [`high_cpu_queries.sql`](performance/high_cpu_queries.sql), [`wait_stats.sql`](diagnostics/wait_stats.sql) |
+| TempDB is under pressure | [`tempdb_usage.sql`](diagnostics/tempdb_usage.sql), [`memory_grants.sql`](performance/memory_grants.sql) |
+| SQL Server has memory pressure | [`memory_pressure.sql`](diagnostics/memory_pressure.sql), [`memory_grants.sql`](performance/memory_grants.sql) |
+| A query regressed | [`query_store_regressions.sql`](performance/query_store_regressions.sql), [`query_plan_candidates.sql`](performance/query_plan_candidates.sql) |
+| Indexes need review | [`index_analysis.sql`](performance/index_analysis.sql), [`missing_indexes.sql`](performance/missing_indexes.sql) |
+| Backups may be stale or missing | [`backup_health.sql`](maintenance/backup_health.sql) |
+| Data or log files need capacity review | [`database_sizes.sql`](maintenance/database_sizes.sql), [`file_space.sql`](maintenance/file_space.sql) |
+| Statistics or fragmentation need maintenance | [`statistics.sql`](maintenance/statistics.sql), [`fragmentation.sql`](maintenance/fragmentation.sql) |
+| Referential integrity is uncertain | [`orphaned_records.sql`](integrity/orphaned_records.sql), [`untrusted_constraints.sql`](integrity/untrusted_constraints.sql) |
+| Tables or data types need design review | [`missing_primary_keys.sql`](schema/missing_primary_keys.sql), [`heap_analysis.sql`](schema/heap_analysis.sql), [`schema_type_patterns.sql`](schema/schema_type_patterns.sql) |
 
-- 🔍 Missing index candidates
-- 📊 Index usage and physical fragmentation
-- ♻️ Duplicate indexes
-- 💤 Potentially unused indexes
-- ⚡ Expensive query patterns
-- 🔄 Implicit data type conversions
-- 💾 TempDB spills
-- 🔎 Heavy table and index scans
-- 🔗 Unindexed Foreign Keys
-- ⚠️ Untrusted or disabled Foreign Keys
-- 🔑 Tables without Primary Keys
-- 🧱 Large heaps
-- 🗃️ Legacy SQL Server data types
-- 📦 Unbounded `MAX` data types
-
-The scripts are designed primarily for **investigation and diagnostics**. They do not blindly apply database changes.
-
----
-
-## 📂 Repository Structure
-
-```text
-sqlserver-scripts/
-│
-├── performance/
-│   ├── README.md
-│   ├── missing_indexes.sql
-│   ├── index_analysis.sql
-│   └── query_plan_candidates.sql
-│
-├── integrity/
-│   ├── README.md
-│   └── fk_analysis.sql
-│
-├── schema/
-│   ├── README.md
-│   └── schema_type_patterns.sql
-│
-├── LICENSE
-└── README.md
-```
-
----
-
-## 🚀 Quick Start
-
-Clone the repository:
+## Quick start
 
 ```bash
 git clone https://github.com/TheMax-Lab/sqlserver-scripts.git
+cd sqlserver-scripts
 ```
 
-Choose the diagnostic category that matches the problem you are investigating.
+1. Choose a script from the catalog below.
+2. Read its header for scope, compatibility, permissions, cost, and risk.
+3. Connect to a test or non-production environment first.
+4. For database-scoped scripts, select the intended context:
 
-For example:
+   ```sql
+   USE [YourDatabaseName];
+   GO
+   ```
 
-```text
-performance/missing_indexes.sql
-```
+5. Run the script and evaluate the returned evidence in workload context.
+6. Review, test, and approve any generated SQL separately. Never execute recommendations blindly.
 
-Open the script in **SQL Server Management Studio (SSMS)** or another SQL Server-compatible query tool and execute it against the target database.
+See the [compatibility and permissions guide](docs/COMPATIBILITY.md) before running scripts in production or Azure SQL.
 
-### Recommended workflow
+## Complete script catalog
 
-```text
-Run diagnostic
-     ↓
-Review findings
-     ↓
-Inspect evidence
-     ↓
-Evaluate recommendation
-     ↓
-Validate against workload
-     ↓
-Apply changes only when appropriate
-```
+### Diagnostics
 
-These scripts are intended to support database investigation — **not replace DBA judgment**.
+General SQL Server health, concurrency, memory, TempDB, and active-workload troubleshooting. [Category guide →](diagnostics/README.md)
 
----
-
-# ⚡ Performance Diagnostics
-
-## `missing_indexes.sql`
-
-[Open script](performance/missing_indexes.sql)
-
-Identifies potentially useful **nonclustered index candidates** using SQL Server missing-index Dynamic Management Views (DMVs).
-
-### What it provides
-
-- Priority classification
-- Estimated impact
-- User seeks and scans
-- Average query cost
-- Last seek timestamp
-- Equality columns
-- Inequality columns
-- Included columns
-- Suggested `CREATE NONCLUSTERED INDEX` statements
-- Risk information
-
-### Why it is useful
-
-Missing-index recommendations can provide useful clues when investigating query performance problems.
-
-However, SQL Server's missing-index DMVs should be treated as **recommendations, not instructions**.
-
-> ⚠️ Missing-index statistics are transient and can be reset after a SQL Server restart.
-
-Always compare recommendations with the existing indexing strategy and test changes against realistic workloads before applying them in production.
-
----
-
-## `index_analysis.sql`
-
-[Open script](performance/index_analysis.sql)
-
-Analyzes nonclustered indexes across three areas:
-
-- Index usage
-- Duplicate definitions
-- Physical fragmentation
-
-### What it can identify
-
-- Potentially duplicate indexes
-- Write-heavy indexes with no recorded reads
-- Index usage statistics
-- Index fragmentation
-- Potential maintenance candidates
-- `REORGANIZE` candidates
-- `REBUILD` candidates
-
-The script also provides evidence and recommendations to help guide further investigation.
-
-### Safety by design
-
-The script does **not** automatically generate `DROP INDEX` statements for unused or duplicate indexes.
-
-An index that appears unused may still be required by:
-
-- Infrequent workloads
-- Maintenance operations
-- Periodic reports
-- Application-specific execution paths
-- Constraints or other database requirements
-
-> ⚠️ Index usage statistics are transient and should be evaluated over a representative workload period.
-
----
-
-## `query_plan_candidates.sql`
-
-[Open script](performance/query_plan_candidates.sql)
-
-Searches the SQL Server **plan cache** for queries exhibiting potentially problematic execution patterns.
-
-### Current detections include
-
-- `CONVERT_IMPLICIT`
-- TempDB spills
-- Expensive scans
-- High CPU consumption
-- High logical reads
-
-### Metrics
-
-The output includes information such as:
-
-- Query text
-- Execution count
-- Average CPU time
-- Average logical reads
-- Query plan information
-
-This makes the script useful as a **first-pass query troubleshooting tool**.
-
-> ⚠️ This script analyzes information currently available in the plan cache. Plan cache data is transient and can be cleared by events such as SQL Server restarts or memory pressure.
-
-The results should therefore be considered **candidates for investigation**, rather than a complete representation of all query activity.
-
----
-
-# 🔒 Integrity Diagnostics
-
-## `fk_analysis.sql`
-
-[Open script](integrity/fk_analysis.sql)
-
-Analyzes Foreign Key constraints across the current database.
-
-### Detects
-
-- Foreign Keys without supporting indexes
-- Disabled Foreign Keys
-- Untrusted Foreign Keys
-
-### Why unindexed Foreign Keys matter
-
-Foreign Keys can have important performance implications during:
-
-- `DELETE`
-- `UPDATE`
-- Parent/child table operations
-- Referential integrity checks
-
-The script identifies Foreign Keys whose leading columns are not appropriately covered by an index.
-
-### Constraint validation
-
-For applicable findings, the script can provide SQL such as:
-
-```sql
-ALTER TABLE ...
-WITH CHECK CHECK CONSTRAINT ...
-```
-
-The generated statement should always be reviewed before execution.
-
----
-
-# 🏗️ Schema Diagnostics
-
-## `schema_type_patterns.sql`
-
-[Open script](schema/schema_type_patterns.sql)
-
-Scans database metadata for schema patterns that may deserve further investigation.
-
-### Current checks include
-
-#### Missing Primary Keys
-
-Identifies tables that do not have a defined Primary Key.
-
-A missing Primary Key is not automatically an error, but it is often worth reviewing.
-
-#### Large Heaps
-
-Identifies tables without a clustered index that exceed the configured row threshold.
-
-Heaps can be perfectly valid in some workloads, so findings should be evaluated according to actual access patterns.
-
-#### Legacy Data Types
-
-Identifies deprecated SQL Server data types such as:
-
-```text
-text
-ntext
-image
-```
-
-#### Unbounded MAX Types
-
-Identifies columns using:
-
-```text
-varchar(max)
-nvarchar(max)
-varbinary(max)
-```
-
-These types are not inherently wrong, but their usage can be worth reviewing depending on the data model and workload.
-
-> ⚠️ Schema findings are **signals for investigation**, not automatic evidence of a design defect.
-
----
-
-# 📊 Diagnostic Output
-
-A key design principle of this repository is to make diagnostic results easier to understand and act upon.
-
-Where appropriate, scripts use a common finding-oriented output model:
-
-| Field | Purpose |
+| Script | Description |
 |---|---|
-| `Priority` | Indicates the relative importance of the finding |
-| `Category` | Groups the type of issue detected |
-| `Object` | Identifies the affected database object |
-| `Finding` | Describes what was detected |
-| `Evidence` | Provides supporting metrics or metadata |
-| `Recommendation` | Suggests what should be investigated |
-| `SuggestedSql` | Provides SQL that can be reviewed |
-| `Risk` | Highlights potential trade-offs |
+| [`blocking_sessions.sql`](diagnostics/blocking_sessions.sql) | Shows blocked requests, direct blockers, waits, SQL text, and session context. |
+| [`database_configuration.sql`](diagnostics/database_configuration.sql) | Reviews `AUTO_CLOSE`, `AUTO_SHRINK`, page verification, and automatic statistics options. |
+| [`database_health.sql`](diagnostics/database_health.sql) | Provides a first-pass check of configuration, backup history, and transaction log health. |
+| [`long_running_queries.sql`](diagnostics/long_running_queries.sql) | Finds active requests over the duration threshold with CPU, reads, waits, and SQL text. |
+| [`memory_pressure.sql`](diagnostics/memory_pressure.sql) | Summarizes SQL Server/OS memory signals and the largest memory clerks. |
+| [`open_transactions.sql`](diagnostics/open_transactions.sql) | Identifies old or sleeping open transactions, log use, blockers, and last SQL. |
+| [`tempdb_usage.sql`](diagnostics/tempdb_usage.sql) | Reports TempDB utilization, file distribution, version store, and top consuming sessions. |
+| [`wait_stats.sql`](diagnostics/wait_stats.sql) | Ranks meaningful cumulative instance waits and separates resource from signal wait time. |
 
-The intention is to move beyond raw metadata queries and provide a more useful diagnostic workflow:
+### Performance
+
+T-SQL performance tuning scripts for query cost, CPU, plans, memory grants, Query Store, and indexing. [Category guide →](performance/README.md)
+
+| Script | Description |
+|---|---|
+| [`expensive_queries.sql`](performance/expensive_queries.sql) | Ranks cached queries by elapsed time, CPU, reads, and writes. |
+| [`high_cpu_queries.sql`](performance/high_cpu_queries.sql) | Focuses on cached statements with high average or cumulative worker time. |
+| [`index_analysis.sql`](performance/index_analysis.sql) | Correlates index usage, duplicate keys, size, and fragmentation. |
+| [`memory_grants.sql`](performance/memory_grants.sql) | Finds waiting, large, and potentially underused active query memory grants. |
+| [`missing_indexes.sql`](performance/missing_indexes.sql) | Ranks missing-index DMV candidates and returns reviewable `CREATE INDEX` text. |
+| [`query_plan_candidates.sql`](performance/query_plan_candidates.sql) | Searches cached XML plans for implicit conversions, spills, and expensive scans. |
+| [`query_store_regressions.sql`](performance/query_store_regressions.sql) | Compares recent Query Store duration with an earlier weighted baseline. |
+
+### Integrity
+
+Foreign-key support, trust, and orphan detection. [Category guide →](integrity/README.md)
+
+| Script | Description |
+|---|---|
+| [`fk_analysis.sql`](integrity/fk_analysis.sql) | Finds unindexed, disabled, and untrusted foreign keys. |
+| [`orphaned_records.sql`](integrity/orphaned_records.sql) | Scans foreign-key relationships for child rows without matching parents. |
+| [`untrusted_constraints.sql`](integrity/untrusted_constraints.sql) | Reports disabled or untrusted foreign-key and check constraints. |
+
+### Maintenance
+
+Backup, capacity, fragmentation, and statistics diagnostics. [Category guide →](maintenance/README.md)
+
+| Script | Description |
+|---|---|
+| [`backup_health.sql`](maintenance/backup_health.sql) | Reviews full, differential, and log backup recency from `msdb`. |
+| [`database_sizes.sql`](maintenance/database_sizes.sql) | Reports file allocation, data-file free space, log use, maximum size, and growth. |
+| [`file_space.sql`](maintenance/file_space.sql) | Highlights low data-file free space and questionable autogrowth settings. |
+| [`fragmentation.sql`](maintenance/fragmentation.sql) | Finds fragmented rowstore indexes and generates maintenance candidates. |
+| [`statistics.sql`](maintenance/statistics.sql) | Finds uninitialized or highly modified statistics and generates update commands. |
+
+### Schema
+
+Schema design and modernization checks. [Category guide →](schema/README.md)
+
+| Script | Description |
+|---|---|
+| [`heap_analysis.sql`](schema/heap_analysis.sql) | Assesses heap size, forwarded records, page density, fragmentation, and indexes. |
+| [`missing_primary_keys.sql`](schema/missing_primary_keys.sql) | Finds user tables without primary keys and supplies structural context. |
+| [`schema_type_patterns.sql`](schema/schema_type_patterns.sql) | Flags missing keys, heaps, deprecated types, and `MAX` columns. |
+
+## Scope and permissions at a glance
+
+| Script type | Typical scope | Typical permission |
+|---|---|---|
+| Catalog and schema checks | Current database | Metadata visibility; sometimes `VIEW DATABASE STATE` |
+| Database DMVs | Current database | `VIEW DATABASE STATE`; SQL Server 2022+ may use `VIEW DATABASE PERFORMANCE STATE` |
+| Instance and plan-cache DMVs | SQL Server instance | `VIEW SERVER STATE`; SQL Server 2022+ may use `VIEW SERVER PERFORMANCE STATE` |
+| Backup diagnostics | Instance and `msdb` | Read access to `sys.databases` and `msdb` backup history |
+| Orphan detection | Current database and table data | `SELECT` on participating tables |
+
+Permissions and Azure behavior vary by engine version, edition, database role, and service tier. See [`docs/COMPATIBILITY.md`](docs/COMPATIBILITY.md) and each script header.
+
+## Safety model
+
+- User database diagnostics are read-only by default.
+- Suggested DDL or maintenance commands are returned as text, never automatically executed.
+- Dynamic SQL in `orphaned_records.sql` performs `SELECT COUNT_BIG` scans only; it writes solely to a local temporary table.
+- DMV values can be transient or incomplete after restarts, failovers, cache eviction, permission filtering, or Query Store cleanup.
+- A recommendation is a candidate for investigation, not proof that a change is correct.
+- Physical-statistics scans, XML plan inspection, Query Store aggregation, and orphan scans can be expensive on large systems.
+
+## Repository structure
 
 ```text
-Finding
-   ↓
-Evidence
-   ↓
-Recommendation
-   ↓
-Risk
-   ↓
-Human review
+sqlserver-scripts/
+├── diagnostics/       # Health, blocking, waits, memory, TempDB
+├── performance/       # Queries, plans, indexes, grants, Query Store
+├── integrity/         # Foreign keys, trust, orphaned records
+├── maintenance/       # Backups, files, fragmentation, statistics
+├── schema/            # Keys, heaps, and data-type patterns
+├── docs/              # Compatibility guide and contribution template
+├── sqlserver-scripts.jpg
+├── CONTRIBUTING.md
+├── SECURITY.md
+└── LICENSE
 ```
 
----
+## Contributing
 
-# 🛡️ Safety First
+Contributions are welcome. Start with [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`docs/SCRIPT_TEMPLATE.sql`](docs/SCRIPT_TEMPLATE.sql). New scripts should be narrowly scoped, read-only by default, documented in English, and added to both their category README and this catalog.
 
-These scripts are designed primarily for **read-only diagnostics**, although some scripts can generate SQL statements intended to modify database objects or constraints.
+## SQL Server topics
 
-Generated SQL is **not a command to execute blindly**.
+`sql-server` · `sqlserver` · `t-sql` · `tsql` · `mssql` · `dba` · `database-administration` · `database-diagnostics` · `database-performance` · `performance-tuning` · `query-optimization` · `indexing` · `query-store` · `tempdb` · `database-maintenance` · `database-monitoring` · `database-troubleshooting` · `sql-scripts`
 
-Before applying any recommendation:
+## License
 
-1. Review the finding.
-2. Understand the evidence.
-3. Check the existing database design.
-4. Consider the application workload.
-5. Test the change outside production.
-6. Measure the impact.
-7. Apply the change only when justified.
+Licensed under the [MIT License](LICENSE).
 
-In particular, be careful with:
-
-- Creating indexes
-- Rebuilding indexes
-- Reorganizing indexes
-- Revalidating constraints
-- Removing or modifying database objects
-
----
-
-# 🔐 Permissions
-
-Some SQL Server Dynamic Management Views require additional permissions.
-
-Depending on the script and SQL Server version, access to database or server-level metadata may be required.
-
-If a script returns a permissions error, check the documentation and the permissions required for the specific DMV being queried.
-
-Run diagnostic scripts using an account with the **minimum permissions necessary** for the investigation.
-
----
-
-# 🧩 Compatibility
-
-The scripts target **Microsoft SQL Server** and use SQL Server-specific catalog views and Dynamic Management Views.
-
-Because SQL Server capabilities and permissions can vary between versions and deployment models, compatibility should be validated against the target environment before using a script in production.
-
-The repository will document version-specific requirements as scripts evolve.
-
----
-
-# 💡 Design Principles
-
-This project follows a few simple principles.
-
-### 1. Diagnostics before automation
-
-The scripts should help you understand a problem before making a change.
-
-### 2. Evidence over assumptions
-
-A recommendation should be accompanied by measurable evidence whenever possible.
-
-### 3. No blind destructive operations
-
-Diagnostic scripts should not casually generate destructive commands.
-
-### 4. Practical over theoretical
-
-The goal is to answer real SQL Server troubleshooting questions.
-
-### 5. DBA judgment remains essential
-
-A diagnostic finding is a starting point for investigation — not an automatic verdict.
-
----
-
-# 🤝 Contributing
-
-Contributions are welcome.
-
-If you have a useful **SQL Server diagnostic query, T-SQL utility, performance investigation technique, integrity check, or schema analysis script**, consider contributing it to the project.
-
-### Good contributions include
-
-- SQL Server performance diagnostics
-- Index analysis scripts
-- Query troubleshooting utilities
-- Database integrity checks
-- Schema analysis tools
-- DMV-based diagnostics
-- Documentation improvements
-- Bug fixes
-- Compatibility improvements
-- Better diagnostic output
-
-### Before submitting a Pull Request
-
-Please make sure that:
-
-- The script has a clear and descriptive name.
-- Its purpose is documented.
-- SQL Server-specific requirements are documented.
-- Required permissions are documented when relevant.
-- Potential risks are explained.
-- Destructive operations are not executed automatically.
-- Generated SQL is clearly identified.
-- The script follows the existing T-SQL style.
-
----
-
-# 💬 Suggestions & Issues
-
-Have an idea for a useful SQL Server diagnostic?
-
-Open an issue and describe:
-
-- The problem you want to investigate
-- The expected output
-- Your SQL Server version
-- Relevant example or sample data
-- Why the diagnostic would be useful
-
-Real-world DBA problems and production troubleshooting scenarios are especially valuable.
-
----
-
-# 🗺️ Roadmap
-
-The project will gradually expand into a broader SQL Server diagnostic toolkit.
-
-Potential future areas include:
-
-- Blocking and lock analysis
-- Long-running transactions
-- Wait statistics
-- Query Store diagnostics
-- Top CPU queries
-- Top logical-read queries
-- Database file analysis
-- Backup health checks
-- Statistics analysis
-- TempDB diagnostics
-- Database configuration checks
-- Additional schema and integrity diagnostics
-
-The focus will remain on **small, understandable, reusable T-SQL scripts** rather than building a large opaque automation framework.
-
----
-
-# ⭐ Support the Project
-
-If this repository helps you investigate a SQL Server problem, save it for later or use one of the scripts in your environment, consider giving it a ⭐.
-
-Stars help other SQL Server professionals discover the project and provide motivation to keep expanding the toolkit.
-
-**Find a problem → Run a diagnostic → Learn from the evidence → Share the improvement**
-
----
-
-# 📚 Topics
-
-This project is focused on:
-
-`SQL Server` · `T-SQL` · `SQL` · `DBA` · `Database Administration` · `SQL Server Performance` · `Performance Tuning` · `Query Optimization` · `Index Analysis` · `Database Diagnostics` · `Database Integrity` · `Database Troubleshooting`
-
----
-
-# 📄 License
-
-This project is licensed under the **MIT License**.
-
-See [LICENSE](LICENSE) for details.
-
----
-
-<p align="center">
-  <b>Built for SQL Server professionals who prefer actionable diagnostics over guesswork.</b>
-</p>
+<p align="center"><strong>Actionable SQL Server diagnostics—evidence first, changes second.</strong></p>

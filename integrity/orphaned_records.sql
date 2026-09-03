@@ -1,21 +1,15 @@
-/*******************************************************************************  
-Script Name:      orphaned_records.sql  
-Description:      Scans foreign key relationships and finds child records that  
-                   do not have a corresponding parent record. Composite foreign  
-                   keys and nullable columns are handled correctly.  
-Author:           TheMaxLab  
-Version:          1.0  
-License:          MIT  
-  
-Usage:  
-  1. Connect to the target SQL Server instance.  
-  2. Select the database context: USE [YourDatabaseName];  
-  3. Execute the script in SSMS or Azure Data Studio.  
-  4. Run during a controlled period because the scan can be I/O intensive.  
-  
-Notes:  
-  - SELECT permission is required on the participating tables.  
-  - The script does not use NOLOCK to avoid inconsistent integrity results.  
+/*******************************************************************************
+Script Name: orphaned_records.sql
+Purpose: Scans foreign key relationships and finds child records that do not have a corresponding parent record. Composite foreign keys and nullable columns are handled correctly.
+Scope: Current database; all user foreign keys
+SQL Server: 2016+
+Azure SQL: Azure SQL Database and Managed Instance; see docs/COMPATIBILITY.md
+Permissions: Metadata visibility; orphan scans also require SELECT on participating tables
+Risk: Read-only for user data; potentially high I/O and blocking cost on large tables.
+Output: Priority, Category, Object, Finding, Evidence, Recommendation, SuggestedSql, Risk
+Author: TheMax-Lab
+Version: 1.0
+License: MIT
 *******************************************************************************/  
   
 SET NOCOUNT ON;  

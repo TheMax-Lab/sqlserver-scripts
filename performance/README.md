@@ -1,78 +1,36 @@
-# SQL Server Performance Diagnostics
+# SQL Server Performance Tuning Scripts
 
-SQL Server and T-SQL scripts for investigating query performance, indexes, execution plans, CPU usage, logical reads, and other common performance-related issues.
-
-These scripts are designed for **diagnostics and investigation**. They do not automatically modify your database.
+Read-only T-SQL scripts for SQL Server query performance, CPU, logical reads, execution plans, memory grants, Query Store, missing indexes, index usage, and fragmentation.
 
 ## Scripts
 
-| Script | Purpose |
-|---|---|
-| [`missing_indexes.sql`](missing_indexes.sql) | Finds potential missing nonclustered indexes |
-| [`index_analysis.sql`](index_analysis.sql) | Analyzes index usage, duplicates, and fragmentation |
-| [`query_plan_candidates.sql`](query_plan_candidates.sql) | Finds potentially expensive queries and execution-plan patterns |
+| Script | Data source | Purpose |
+|---|---|---|
+| [`expensive_queries.sql`](expensive_queries.sql) | Plan cache | Ranks cached queries by average and cumulative elapsed time, CPU, reads, and writes. |
+| [`high_cpu_queries.sql`](high_cpu_queries.sql) | Plan cache | Focuses on statements with high average or cumulative CPU consumption. |
+| [`index_analysis.sql`](index_analysis.sql) | Catalog + index DMVs | Correlates usage, duplicate keys, size, and physical fragmentation. |
+| [`memory_grants.sql`](memory_grants.sql) | Active grant DMVs | Finds waiting, large, and potentially underused query memory grants. |
+| [`missing_indexes.sql`](missing_indexes.sql) | Missing-index DMVs | Ranks index candidates and returns reviewable `CREATE INDEX` statements. |
+| [`query_plan_candidates.sql`](query_plan_candidates.sql) | Cached XML plans | Finds implicit conversions, TempDB spills, and scans in costly statements. |
+| [`query_store_regressions.sql`](query_store_regressions.sql) | Query Store | Compares recent average duration with an earlier weighted baseline. |
 
-## `missing_indexes.sql`
+## Choosing a script
 
-Identifies potential missing nonclustered indexes using SQL Server missing-index DMVs.
+- Use `high_cpu_queries.sql` for CPU-specific investigations.
+- Use `expensive_queries.sql` when elapsed time, reads, writes, or CPU may be responsible.
+- Use `query_plan_candidates.sql` to search common plan symptoms; confirm every match in the full plan.
+- Use `query_store_regressions.sql` when persistent history is available and a workload changed over time.
+- Use `memory_grants.sql` for `RESOURCE_SEMAPHORE`, workspace-memory, sort, or hash concerns.
+- Review `index_analysis.sql` before acting on `missing_indexes.sql` so candidates do not duplicate existing indexes.
 
-Useful for:
+## Limitations and safety
 
-- identifying high-impact index candidates
-- reviewing equality and inequality columns
-- analyzing included columns
-- understanding missing-index recommendations
+- Plan-cache and missing-index statistics reset after restart, failover, cache eviction, recompilation, and other events.
+- Query Store results depend on capture policy, retention, aggregation intervals, and available history.
+- XML plan searches and physical-statistics scans can consume noticeable resources on busy or large systems.
+- An unused, duplicate, fragmented, or suggested index is not automatically a change recommendation.
+- Test every generated statement against read performance, write overhead, storage, maintenance, and deployment constraints.
 
-> Missing-index DMVs provide recommendations, not guaranteed solutions.
+Review the [compatibility guide](../docs/COMPATIBILITY.md) and each script header before production use.
 
-Always validate proposed indexes against the existing indexing strategy and real workload.
-
-[View script](missing_indexes.sql)
-
-## `index_analysis.sql`
-
-Analyzes nonclustered indexes for:
-
-- index usage
-- duplicate definitions
-- fragmentation
-- read/write activity
-- maintenance candidates
-
-The script does not automatically drop indexes.
-
-An apparently unused index may still be required by an infrequent workload, reporting process, maintenance task, or other database operation.
-
-[View script](index_analysis.sql)
-
-## `query_plan_candidates.sql`
-
-Searches the SQL Server plan cache for potentially problematic execution patterns, including:
-
-- implicit conversions
-- TempDB spills
-- expensive scans
-- high CPU usage
-- high logical reads
-
-The results should be treated as candidates for further investigation.
-
-[View script](query_plan_candidates.sql)
-
-## Recommended Workflow
-
-1. Run the diagnostic script.
-2. Review the findings.
-3. Validate the evidence.
-4. Check the existing database design.
-5. Test potential changes.
-6. Measure the impact.
-7. Apply changes only when justified.
-
-## Important
-
-These scripts inspect SQL Server metadata and runtime information. Some DMV data is transient and may be reset after a SQL Server restart or other events.
-
-Always test changes before applying them to production.
-
-[← Back to the main README](../README.md)
+[← Main README](../README.md)

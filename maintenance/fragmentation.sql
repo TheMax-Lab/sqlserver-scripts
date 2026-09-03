@@ -1,23 +1,15 @@
-/*******************************************************************************  
-Script Name:      fragmentation.sql  
-Description:      Searches the current database for fragmented rowstore  
-                  indexes and recommends REORGANIZE or REBUILD operations.  
-Author:           TheMaxLab  
-Version:          1.0  
-License:          MIT  
-  
-Usage:  
-  1. Connect to the target SQL Server instance.  
-  2. Select the database context:  
-       USE [YourDatabaseName];  
-  3. Execute the script in SSMS or Azure Data Studio.  
-  
-Notes:  
-  - Only rowstore clustered and nonclustered indexes are analyzed.  
-  - Indexes smaller than 1,000 pages are excluded.  
-  - Fragmentation below 10 percent is excluded.  
-  - LIMITED mode is used to reduce the diagnostic overhead.  
-  - REBUILD is generated without ONLINE = ON for broader compatibility.  
+/*******************************************************************************
+Script Name: fragmentation.sql
+Purpose: Searches the current database for fragmented rowstore indexes and recommends REORGANIZE or REBUILD operations.
+Scope: Current database
+SQL Server: 2016+
+Azure SQL: Azure SQL support varies for msdb and file operations; see docs/COMPATIBILITY.md
+Permissions: VIEW DATABASE STATE or read access to msdb backup history, depending on the script
+Risk: Read-only; potentially medium query cost. Generated maintenance SQL is not executed.
+Output: Priority, Category, Object, Finding, Evidence, Recommendation, SuggestedSql, Risk
+Author: TheMax-Lab
+Version: 1.0
+License: MIT
 *******************************************************************************/  
   
 ;WITH [PartitionCounts] AS  

@@ -1,27 +1,15 @@
-/*******************************************************************************  
-Script Name:      high_cpu_queries.sql  
-Description:      Searches the plan cache for queries with high average or  
-                  cumulative CPU consumption.  
-  
-Author:           TheMAxLab  
-Version:          1.0  
-License:          MIT  
-  
-Usage:  
-  1. Connect to the target SQL Server instance.  
-  2. Select the database context:  
-       USE [YourDatabaseName];  
-  3. Execute the script in SSMS or Azure Data Studio.  
-  4. Required permissions:  
-       - SQL Server 2019 and earlier: VIEW SERVER STATE  
-       - SQL Server 2022 and later:   VIEW SERVER PERFORMANCE STATE  
-  
-Notes:  
-  - total_worker_time is cumulative CPU time for the cached plan.  
-  - Statistics are cumulative since the plan was compiled.  
-  - A worker/elapsed ratio greater than 100% may indicate CPU consumed  
-    by multiple parallel workers.  
-  - Thresholds in the Priority and WHERE clauses can be customized.  
+/*******************************************************************************
+Script Name: high_cpu_queries.sql
+Purpose: Searches the plan cache for queries with high average or cumulative CPU consumption.
+Scope: Current database; plan cache
+SQL Server: 2016+
+Azure SQL: Azure SQL Database and Managed Instance; see docs/COMPATIBILITY.md
+Permissions: VIEW SERVER STATE or VIEW DATABASE STATE, depending on the DMV; SQL Server 2022+ may require the corresponding PERFORMANCE STATE permission
+Risk: Read-only; review and test any generated SQL before execution.
+Output: Priority, Category, Object, Finding, Evidence, Recommendation, SuggestedSql, Risk
+Author: TheMax-Lab
+Version: 1.0
+License: MIT
 *******************************************************************************/  
   
 SELECT TOP (100)  

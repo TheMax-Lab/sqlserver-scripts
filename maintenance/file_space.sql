@@ -3,8 +3,10 @@ Script Name: file_space.sql
 Purpose: Reviews current-database data/log file size, used/free space and growth settings.
 Scope: Current database
 SQL Server: 2016+
-Permissions: VIEW DATABASE STATE recommended
-Risk: Read-only
+Azure SQL: Azure SQL support varies for msdb and file operations; see docs/COMPATIBILITY.md
+Permissions: VIEW DATABASE STATE or read access to msdb backup history, depending on the script
+Risk: Read-only; review and test any generated SQL before execution.
+Output: Priority, Category, Object, Finding, Evidence, Recommendation, SuggestedSql, Risk
 Author: TheMax-Lab
 Version: 1.0
 License: MIT

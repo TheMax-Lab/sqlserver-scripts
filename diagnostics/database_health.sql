@@ -1,20 +1,15 @@
-/*******************************************************************************  
-Script Name:      database_health.sql  
-Description:      Checks the current database for configuration, backup, and  
-                  transaction log health conditions.  
-Author:           TheMaxLab  
-Version:          1.0  
-License:          MIT  
-  
-Usage:  
-  1. Connect to the target SQL Server instance.  
-  2. Select the database context:  
-       USE [YourDatabaseName];  
-  3. Execute the script in SSMS or Azure Data Studio.  
-  
-Notes:  
-  - Backup findings are based on backup history available in msdb.  
-  - No returned rows means that no condition exceeded the configured thresholds.  
+/*******************************************************************************
+Script Name: database_health.sql
+Purpose: Checks the current database for configuration, backup, and transaction log health conditions.
+Scope: Current database; reads msdb backup history
+SQL Server: 2016+
+Azure SQL: Azure SQL support varies for instance-level DMVs; see docs/COMPATIBILITY.md
+Permissions: VIEW SERVER STATE or VIEW DATABASE STATE, depending on scope; SQL Server 2022+ may require the corresponding PERFORMANCE STATE permission
+Risk: Read-only; review and test any generated SQL before execution.
+Output: Priority, Category, Object, Finding, Evidence, Recommendation, SuggestedSql, Risk
+Author: TheMax-Lab
+Version: 1.0
+License: MIT
 *******************************************************************************/  
   
 ;WITH DbInfo AS  

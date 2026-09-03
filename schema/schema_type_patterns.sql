@@ -1,16 +1,15 @@
 /*******************************************************************************
-Script Name:      schema_type_patterns.sql
-Description:      Detects structural anti-patterns such as missing Primary Keys, 
-                  large Heaps, and deprecated or unbounded LOB data types.
-                  
-Author:           TheMaxLab
-Version:          1.0
-License:          MIT
-
-Usage:
-  1. Connect to the target SQL Server instance.
-  2. Select the database context: USE [YourDatabaseName];
-  3. Execute the script in SSMS or Azure Data Studio.
+Script Name: schema_type_patterns.sql
+Purpose: Detects structural anti-patterns such as missing Primary Keys, large Heaps, and deprecated or unbounded LOB data types.
+Scope: Current database
+SQL Server: 2016+
+Azure SQL: Azure SQL Database and Managed Instance; see docs/COMPATIBILITY.md
+Permissions: Metadata visibility; physical-statistics scripts require VIEW DATABASE STATE
+Risk: Read-only; review and test any generated SQL before execution.
+Output: Priority, Category, Object, Finding, Evidence, Recommendation, SuggestedSql, Risk
+Author: TheMax-Lab
+Version: 1.0
+License: MIT
 *******************************************************************************/
 
 ;WITH table_rows AS (

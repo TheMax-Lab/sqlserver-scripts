@@ -1,23 +1,15 @@
 /*******************************************************************************
-Script Name:      index_analysis.sql
-Description:      Analyzes SQL Server indexes for usage patterns, duplicate key
-                  definitions, and physical fragmentation to identify cleanup or
-                  maintenance opportunities.
-                  
-Author:           TheMaxLab
-Version:          1.0
-License:          MIT
-
-Usage:
-  1. Connect to the target SQL Server instance.
-  2. Select the database context: USE [YourDatabaseName];
-  3. Execute the script in SQL Server Management Studio (SSMS) or 
-     Azure Data Studio.
-     
-Notes:
-  - DMV usage stats reset upon service restart.
-  - Physical fragmentation scanning uses 'LIMITED' mode to minimize IO impact.
-  - Always manually verify index dependencies before dropping unused/duplicate indexes.
+Script Name: index_analysis.sql
+Purpose: Analyzes SQL Server indexes for usage patterns, duplicate key definitions, and physical fragmentation to identify cleanup or maintenance opportunities.
+Scope: Current database
+SQL Server: 2016+
+Azure SQL: Azure SQL Database and Managed Instance; see docs/COMPATIBILITY.md
+Permissions: VIEW SERVER STATE or VIEW DATABASE STATE, depending on the DMV; SQL Server 2022+ may require the corresponding PERFORMANCE STATE permission
+Risk: Read-only; review and test any generated SQL before execution.
+Output: Priority, Category, Object, Finding, Evidence, Recommendation, SuggestedSql, Risk
+Author: TheMax-Lab
+Version: 1.0
+License: MIT
 *******************************************************************************/
 
 ;WITH sz AS (

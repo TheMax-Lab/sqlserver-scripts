@@ -1,68 +1,24 @@
-# SQL Server Schema Diagnostics
+# SQL Server Schema Analysis Scripts
 
-T-SQL scripts for identifying database schema patterns that may deserve further investigation.
-
-The goal is not to enforce a single database design, but to highlight potentially interesting objects and patterns.
+Read-only T-SQL checks for primary keys, heaps, forwarded records, deprecated data types, and unbounded large-object columns. Findings are design-review candidates, not universal rules.
 
 ## Scripts
 
-| Script | Purpose |
-|---|---|
-| [`schema_type_patterns.sql`](schema_type_patterns.sql) | Identifies schema patterns involving Primary Keys, heaps, legacy data types, and MAX data types |
+| Script | Cost | Purpose |
+|---|---|---|
+| [`heap_analysis.sql`](heap_analysis.sql) | Potentially high | Assesses heap size, forwarded records, page density, extent fragmentation, and nonclustered indexes. |
+| [`missing_primary_keys.sql`](missing_primary_keys.sql) | Low | Finds user tables without primary keys and reports rows, storage, unique indexes, and incoming foreign keys. |
+| [`schema_type_patterns.sql`](schema_type_patterns.sql) | Low | Provides a broad scan for missing keys, large heaps, deprecated types, and `MAX` columns. |
 
-## `schema_type_patterns.sql`
+## What the findings mean
 
-Analyzes SQL Server metadata to identify potentially interesting schema patterns.
+- **Missing primary key:** may affect identity, relationships, tooling, and maintainability, but staging or append-only designs can be intentional.
+- **Heap:** can be appropriate for some loading patterns; forwarded records and access patterns are stronger evidence than heap status alone.
+- **Deprecated type:** `text`, `ntext`, and `image` deserve modernization planning and application compatibility testing.
+- **Unbounded type:** `varchar(max)`, `nvarchar(max)`, and `varbinary(max)` are valid types, but should match real data and query requirements.
 
-### Current checks
+Run `schema_type_patterns.sql` for broad discovery, then use `heap_analysis.sql` or `missing_primary_keys.sql` for deeper evidence. Physical statistics can be expensive on large databases, even in `SAMPLED` mode.
 
-#### Missing Primary Keys
+Review the [compatibility guide](../docs/COMPATIBILITY.md) and each script header before production use.
 
-Identifies tables without a defined Primary Key.
-
-A table without a Primary Key is not necessarily incorrect, but it may deserve review depending on its purpose and workload.
-
-#### Large Heaps
-
-Identifies tables without a clustered index above the configured row threshold.
-
-Heaps can be appropriate for certain workloads, so findings should be evaluated in context.
-
-#### Legacy Data Types
-
-Identifies deprecated SQL Server data types such as:
-
-- `text`
-- `ntext`
-- `image`
-
-These types may be candidates for modernization.
-
-#### MAX Data Types
-
-Identifies columns using:
-
-- `varchar(max)`
-- `nvarchar(max)`
-- `varbinary(max)`
-
-These data types are not inherently problematic, but their usage may deserve review depending on the application and data model.
-
-## Important
-
-The script reports **patterns and candidates for investigation**.
-
-It does not automatically classify a schema design as correct or incorrect.
-
-Database design decisions should consider:
-
-- application requirements
-- workload
-- data size
-- query patterns
-- compatibility requirements
-- SQL Server version
-
-[View script](schema_type_patterns.sql)
-
-[← Back to the main README](../README.md)
+[← Main README](../README.md)

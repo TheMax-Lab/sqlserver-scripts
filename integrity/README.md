@@ -1,53 +1,31 @@
-# SQL Server Database Integrity Diagnostics
+# SQL Server Database Integrity Scripts
 
-SQL Server and T-SQL diagnostics for identifying potential Foreign Key and referential integrity issues.
-
-These scripts are designed to help DBAs and database developers identify objects that may require further investigation.
+T-SQL diagnostics for foreign-key indexing, constraint state, trust, and orphaned data. These scripts report evidence and do not repair user data automatically.
 
 ## Scripts
 
-| Script | Purpose |
-|---|---|
-| [`fk_analysis.sql`](fk_analysis.sql) | Analyzes Foreign Keys, supporting indexes, disabled constraints, and untrusted constraints |
+| Script | Cost | Purpose |
+|---|---|---|
+| [`fk_analysis.sql`](fk_analysis.sql) | Low | Finds foreign keys without a supporting index and reports disabled or untrusted keys. |
+| [`orphaned_records.sql`](orphaned_records.sql) | Potentially high | Scans every user foreign-key relationship for child rows without a matching parent. |
+| [`untrusted_constraints.sql`](untrusted_constraints.sql) | Low | Reports disabled or untrusted foreign-key and check constraints with validation SQL. |
 
-## `fk_analysis.sql`
+## Recommended workflow
 
-Analyzes Foreign Key constraints in the current database.
+1. Run `fk_analysis.sql` to inspect foreign-key support and state.
+2. Run `untrusted_constraints.sql` to identify constraints the optimizer cannot trust.
+3. Run `orphaned_records.sql` in a controlled window when validation is required.
+4. Investigate application rules, replication behavior, loading processes, and historical data fixes.
+5. Correct data only through an approved, tested remediation plan.
+6. Re-enable and validate constraints only after confirming existing rows satisfy them.
 
-The script can identify:
+## Important considerations
 
-- Foreign Keys without supporting indexes
-- Disabled Foreign Keys
-- Untrusted Foreign Keys
-- Potential referential integrity issues
+- A foreign key does not always need its own index; consider table size, workload, column order, and existing indexes.
+- An untrusted constraint can be enabled while still not trusted. Validation may scan and lock large tables.
+- `orphaned_records.sql` uses quoted dynamic object names and read-only `COUNT_BIG` queries, but can perform substantial I/O.
+- Never delete orphaned rows automatically. The correct action may be restoring parent data, correcting child data, or documenting an intentional exception.
 
-### Why Foreign Key indexes matter
+Review the [compatibility guide](../docs/COMPATIBILITY.md) and each script header before production use.
 
-Foreign Keys can have performance implications when SQL Server validates relationships between parent and child tables.
-
-Supporting indexes may be particularly important for workloads involving:
-
-- `DELETE`
-- `UPDATE`
-- large parent tables
-- large child tables
-- frequent referential integrity checks
-
-### Important
-
-A missing Foreign Key index is not automatically a performance problem.
-
-Review the workload, existing indexes, table size, query patterns, and maintenance strategy before creating a new index.
-
-[View script](fk_analysis.sql)
-
-## Recommended Workflow
-
-1. Run the analysis.
-2. Review the Foreign Key findings.
-3. Check existing indexes.
-4. Consider workload and table size.
-5. Test any proposed changes.
-6. Validate the impact before production deployment.
-
-[← Back to the main README](../README.md)
+[← Main README](../README.md)

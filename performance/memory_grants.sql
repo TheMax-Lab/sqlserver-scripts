@@ -1,12 +1,12 @@
 /*******************************************************************************
 Script Name: memory_grants.sql
 Purpose: Finds active and waiting query memory grants in the current database.
-Scope: Current database, active requests
+Scope: Current database; active requests
 SQL Server: 2016+
-Permissions:
-- SQL Server 2019 and earlier: VIEW SERVER STATE
-- SQL Server 2022 and later: VIEW SERVER PERFORMANCE STATE
-Risk: Read-only
+Azure SQL: Azure SQL Database and Managed Instance; see docs/COMPATIBILITY.md
+Permissions: VIEW SERVER STATE or VIEW DATABASE STATE, depending on the DMV; SQL Server 2022+ may require the corresponding PERFORMANCE STATE permission
+Risk: Read-only; review and test any generated SQL before execution.
+Output: Priority, Category, Object, Finding, Evidence, Recommendation, SuggestedSql, Risk
 Author: TheMax-Lab
 Version: 1.0
 License: MIT

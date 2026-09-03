@@ -1,11 +1,12 @@
 /*******************************************************************************
 Script Name: backup_health.sql
-Purpose: Reviews the latest full, differential and log backups for online
-         user databases on the SQL Server instance.
-Scope: Instance; reads msdb backup history
+Purpose: Reviews the latest full, differential and log backups for online user databases on the SQL Server instance.
+Scope: SQL Server instance; reads msdb backup history
 SQL Server: 2016+
-Permissions: Access to sys.databases and msdb backup history
-Risk: Read-only. Third-party/VSS backup behavior should be validated.
+Azure SQL: Azure SQL support varies for msdb and file operations; see docs/COMPATIBILITY.md
+Permissions: VIEW DATABASE STATE or read access to msdb backup history, depending on the script
+Risk: Read-only; review and test any generated SQL before execution.
+Output: Priority, Category, Object, Finding, Evidence, Recommendation, SuggestedSql, Risk
 Author: TheMax-Lab
 Version: 1.0
 License: MIT

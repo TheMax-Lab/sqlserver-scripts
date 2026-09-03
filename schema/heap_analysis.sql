@@ -1,21 +1,15 @@
-/*******************************************************************************  
-Script Name:      heap_analysis.sql  
-Description:      Finds heap tables and evaluates their size, forwarded records,  
-                   page density, extent fragmentation, and nonclustered indexes.  
-                   Physical statistics are collected using SAMPLED mode.  
-Author:           TheMaxLab  
-Version:          1.0  
-License:          MIT  
-  
-Usage:  
-  1. Connect to the target SQL Server instance.  
-  2. Select the database context: USE [YourDatabaseName];  
-  3. Execute the script in SSMS or Azure Data Studio.  
-  4. Run during a controlled period on large databases.  
-  
-Permissions:  
-  - VIEW DATABASE STATE on SQL Server 2019 and earlier.  
-  - VIEW DATABASE PERFORMANCE STATE may be required on SQL Server 2022+.  
+/*******************************************************************************
+Script Name: heap_analysis.sql
+Purpose: Finds heap tables and evaluates their size, forwarded records, page density, extent fragmentation, and nonclustered indexes. Physical statistics are collected using SAMPLED mode.
+Scope: Current database
+SQL Server: 2016+
+Azure SQL: Azure SQL Database and Managed Instance; see docs/COMPATIBILITY.md
+Permissions: Metadata visibility; physical-statistics scripts require VIEW DATABASE STATE
+Risk: Read-only; potentially high query cost because physical statistics use SAMPLED mode.
+Output: Priority, Category, Object, Finding, Evidence, Recommendation, SuggestedSql, Risk
+Author: TheMax-Lab
+Version: 1.0
+License: MIT
 *******************************************************************************/  
   
 ;WITH HeapSize AS  

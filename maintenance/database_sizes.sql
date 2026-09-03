@@ -1,25 +1,15 @@
-/*******************************************************************************  
-Script Name:      database_sizes.sql  
-Description:      Reports the current database files, allocated sizes, free  
-                  space, transaction log utilization, MAXSIZE, and autogrowth  
-                  configuration.  
-Author:           TheMaxLab  
-Version:          1.0  
-License:          MIT  
-  
-Usage:  
-  1. Connect to the target SQL Server instance.  
-  2. Select the database context:  
-       USE [YourDatabaseName];  
-  3. Execute the script in SSMS or Azure Data Studio.  
-  
-Notes:  
-  - Returns one row for each file in the current database.  
-  - Data-file free space is calculated with FILEPROPERTY.  
-  - Transaction-log utilization is database-wide and is therefore repeated  
-    for each log file.  
-  - Generated FILEGROWTH values are starting recommendations only and must be  
-    adjusted to the workload, storage performance, and recovery objectives.  
+/*******************************************************************************
+Script Name: database_sizes.sql
+Purpose: Reports the current database files, allocated sizes, free space, transaction log utilization, MAXSIZE, and autogrowth configuration.
+Scope: Current database
+SQL Server: 2016+
+Azure SQL: Azure SQL support varies for msdb and file operations; see docs/COMPATIBILITY.md
+Permissions: VIEW DATABASE STATE or read access to msdb backup history, depending on the script
+Risk: Read-only; review and test any generated SQL before execution.
+Output: Priority, Category, Object, Finding, Evidence, Recommendation, SuggestedSql, Risk
+Author: TheMax-Lab
+Version: 1.0
+License: MIT
 *******************************************************************************/  
   
 ;WITH [RawFiles] AS  

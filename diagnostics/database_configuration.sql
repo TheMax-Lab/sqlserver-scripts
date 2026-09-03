@@ -3,8 +3,9 @@ Script Name: database_configuration.sql
 Purpose: Reviews current-database configuration choices that commonly deserve DBA review.
 Scope: Current database
 SQL Server: 2016+
-Permissions: VIEW DATABASE STATE recommended
-Risk: Read-only. Suggested ALTER statements are comments only.
+Azure SQL: Azure SQL support varies for instance-level DMVs; see docs/COMPATIBILITY.md
+Permissions: VIEW SERVER STATE or VIEW DATABASE STATE, depending on scope; SQL Server 2022+ may require the corresponding PERFORMANCE STATE permission
+Risk: Read-only; review and test any generated SQL before execution.
 Output: Priority, Category, Object, Finding, Evidence, Recommendation, SuggestedSql, Risk
 Author: TheMax-Lab
 Version: 1.0

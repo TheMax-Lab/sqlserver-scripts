@@ -1,12 +1,12 @@
 /*******************************************************************************
 Script Name: query_store_regressions.sql
-Purpose: Finds queries whose recent Query Store average duration is materially
-         worse than their earlier baseline.
-Scope: Current database
+Purpose: Finds queries whose recent Query Store average duration is materially worse than their earlier baseline.
+Scope: Current database; Query Store
 SQL Server: 2016+
-Requirement: Query Store must be enabled and contain runtime history.
-Permissions: VIEW DATABASE STATE
-Risk: Read-only
+Azure SQL: Azure SQL Database and Managed Instance; see docs/COMPATIBILITY.md
+Permissions: VIEW SERVER STATE or VIEW DATABASE STATE, depending on the DMV; SQL Server 2022+ may require the corresponding PERFORMANCE STATE permission
+Risk: Read-only; potentially medium query cost on large Query Store histories.
+Output: Priority, Category, Object, Finding, Evidence, Recommendation, SuggestedSql, Risk
 Author: TheMax-Lab
 Version: 1.0
 License: MIT

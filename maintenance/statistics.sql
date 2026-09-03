@@ -1,25 +1,15 @@
-/*******************************************************************************  
-Script Name:      statistics.sql  
-Description:      Searches the current database for statistics that have never  
-                  been initialized or whose modification counter exceeds a  
-                  practical auto-update threshold.  
-Author:           TheMaxLab  
-Version:          1.0  
-License:          MIT  
-  
-Usage:  
-  1. Connect to the target SQL Server instance.  
-  2. Select the database context:  
-       USE [YourDatabaseName];  
-  3. Execute the script in SSMS or Azure Data Studio.  
-  
-Notes:  
-  - Requires SQL Server 2012 SP1 or later for  
-    sys.dm_db_stats_properties.  
-  - The threshold is an operational heuristic based on traditional and  
-    dynamic auto-update statistics thresholds.  
-  - Age alone does not make a statistic stale; modification counters are used.  
-  - Generated UPDATE STATISTICS commands use the SQL Server default sampling.  
+/*******************************************************************************
+Script Name: statistics.sql
+Purpose: Searches the current database for statistics that have never been initialized or whose modification counter exceeds a practical auto-update threshold.
+Scope: Current database
+SQL Server: 2012 SP1+
+Azure SQL: Azure SQL support varies for msdb and file operations; see docs/COMPATIBILITY.md
+Permissions: VIEW DATABASE STATE or read access to msdb backup history, depending on the script
+Risk: Read-only; review and test any generated SQL before execution.
+Output: Priority, Category, Object, Finding, Evidence, Recommendation, SuggestedSql, Risk
+Author: TheMax-Lab
+Version: 1.0
+License: MIT
 *******************************************************************************/  
   
 ;WITH [ObjectRows] AS  
