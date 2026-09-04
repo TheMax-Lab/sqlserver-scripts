@@ -1,0 +1,57 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlServerDiagnostics.App", "src\SqlServerDiagnostics.App\SqlServerDiagnostics.App.csproj", "{5BFC356C-C8B6-4F4A-A4DB-13B2DD2D8410}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlServerDiagnostics.Core", "src\SqlServerDiagnostics.Core\SqlServerDiagnostics.Core.csproj", "{DB98D74F-6BDF-491F-92FC-5816125C33F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlServerDiagnostics.Infrastructure", "src\SqlServerDiagnostics.Infrastructure\SqlServerDiagnostics.Infrastructure.csproj", "{B94F3FE9-0F8B-4ED7-8479-B6823D6267CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlServerDiagnostics.Diagnostics", "src\SqlServerDiagnostics.Diagnostics\SqlServerDiagnostics.Diagnostics.csproj", "{F156B32A-98D0-4F66-8696-724A44F481A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlServerDiagnostics.Reporting", "src\SqlServerDiagnostics.Reporting\SqlServerDiagnostics.Reporting.csproj", "{A0DBAF9B-1A73-49EA-8154-D1107A4A1A8A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlServerDiagnostics.Core.Tests", "tests\SqlServerDiagnostics.Core.Tests\SqlServerDiagnostics.Core.Tests.csproj", "{FD04EBDD-41D6-4765-95C9-EDECA3FA2A4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlServerDiagnostics.Diagnostics.Tests", "tests\SqlServerDiagnostics.Diagnostics.Tests\SqlServerDiagnostics.Diagnostics.Tests.csproj", "{76E37D78-F7F9-42A3-933D-9E9C5101F63D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5BFC356C-C8B6-4F4A-A4DB-13B2DD2D8410}.Debug|x64.ActiveCfg = Debug|x64
+		{5BFC356C-C8B6-4F4A-A4DB-13B2DD2D8410}.Debug|x64.Build.0 = Debug|x64
+		{5BFC356C-C8B6-4F4A-A4DB-13B2DD2D8410}.Release|x64.ActiveCfg = Release|x64
+		{5BFC356C-C8B6-4F4A-A4DB-13B2DD2D8410}.Release|x64.Build.0 = Release|x64
+		{DB98D74F-6BDF-491F-92FC-5816125C33F3}.Debug|x64.ActiveCfg = Debug|x64
+		{DB98D74F-6BDF-491F-92FC-5816125C33F3}.Debug|x64.Build.0 = Debug|x64
+		{DB98D74F-6BDF-491F-92FC-5816125C33F3}.Release|x64.ActiveCfg = Release|x64
+		{DB98D74F-6BDF-491F-92FC-5816125C33F3}.Release|x64.Build.0 = Release|x64
+		{B94F3FE9-0F8B-4ED7-8479-B6823D6267CF}.Debug|x64.ActiveCfg = Debug|x64
+		{B94F3FE9-0F8B-4ED7-8479-B6823D6267CF}.Debug|x64.Build.0 = Debug|x64
+		{B94F3FE9-0F8B-4ED7-8479-B6823D6267CF}.Release|x64.ActiveCfg = Release|x64
+		{B94F3FE9-0F8B-4ED7-8479-B6823D6267CF}.Release|x64.Build.0 = Release|x64
+		{F156B32A-98D0-4F66-8696-724A44F481A4}.Debug|x64.ActiveCfg = Debug|x64
+		{F156B32A-98D0-4F66-8696-724A44F481A4}.Debug|x64.Build.0 = Debug|x64
+		{F156B32A-98D0-4F66-8696-724A44F481A4}.Release|x64.ActiveCfg = Release|x64
+		{F156B32A-98D0-4F66-8696-724A44F481A4}.Release|x64.Build.0 = Release|x64
+		{A0DBAF9B-1A73-49EA-8154-D1107A4A1A8A}.Debug|x64.ActiveCfg = Debug|x64
+		{A0DBAF9B-1A73-49EA-8154-D1107A4A1A8A}.Debug|x64.Build.0 = Debug|x64
+		{A0DBAF9B-1A73-49EA-8154-D1107A4A1A8A}.Release|x64.ActiveCfg = Release|x64
+		{A0DBAF9B-1A73-49EA-8154-D1107A4A1A8A}.Release|x64.Build.0 = Release|x64
+		{FD04EBDD-41D6-4765-95C9-EDECA3FA2A4D}.Debug|x64.ActiveCfg = Debug|x64
+		{FD04EBDD-41D6-4765-95C9-EDECA3FA2A4D}.Debug|x64.Build.0 = Debug|x64
+		{FD04EBDD-41D6-4765-95C9-EDECA3FA2A4D}.Release|x64.ActiveCfg = Release|x64
+		{FD04EBDD-41D6-4765-95C9-EDECA3FA2A4D}.Release|x64.Build.0 = Release|x64
+		{76E37D78-F7F9-42A3-933D-9E9C5101F63D}.Debug|x64.ActiveCfg = Debug|x64
+		{76E37D78-F7F9-42A3-933D-9E9C5101F63D}.Debug|x64.Build.0 = Debug|x64
+		{76E37D78-F7F9-42A3-933D-9E9C5101F63D}.Release|x64.ActiveCfg = Release|x64
+		{76E37D78-F7F9-42A3-933D-9E9C5101F63D}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

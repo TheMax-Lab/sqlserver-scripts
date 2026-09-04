@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" Condition="false" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{DB98D74F-6BDF-491F-92FC-5816125C33F3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>TheMaxLab.SqlServerDiagnostics.Core</RootNamespace>
+    <AssemblyName>TheMaxLab.SqlServerDiagnostics.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <DebugSymbols>true</DebugSymbols><DebugType>full</DebugType><Optimize>false</Optimize><OutputPath>bin\x64\Debug\</OutputPath><DefineConstants>DEBUG;TRACE</DefineConstants><ErrorReport>prompt</ErrorReport><WarningLevel>4</WarningLevel><PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <DebugType>pdbonly</DebugType><Optimize>true</Optimize><OutputPath>bin\x64\Release\</OutputPath><DefineConstants>TRACE</DefineConstants><ErrorReport>prompt</ErrorReport><WarningLevel>4</WarningLevel><PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" /><Reference Include="System.Core" /><Reference Include="System.Data" /><Reference Include="System.Runtime.Serialization" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Enums\AssessmentStatus.cs" /><Compile Include="Enums\AuthenticationType.cs" /><Compile Include="Enums\DiagnosticCategory.cs" /><Compile Include="Enums\DiagnosticExecutionCost.cs" /><Compile Include="Enums\DiagnosticExecutionStatus.cs" /><Compile Include="Enums\DiagnosticFailureKind.cs" /><Compile Include="Enums\DiagnosticProgressStage.cs" /><Compile Include="Enums\DiagnosticScope.cs" /><Compile Include="Enums\DiagnosticSeverity.cs" /><Compile Include="Enums\EmptyResultMeaning.cs" /><Compile Include="Enums\FindingImpact.cs" /><Compile Include="Enums\InterpretationConfidence.cs" /><Compile Include="Enums\InterpretationMode.cs" /><Compile Include="Enums\DiagnosticInterpretationStatus.cs" /><Compile Include="Enums\LogLevel.cs" /><Compile Include="Enums\SqlServerEngineType.cs" />
+    <Compile Include="Interfaces\IApplicationLogger.cs" /><Compile Include="Interfaces\IConnectionProfileService.cs" /><Compile Include="Interfaces\IConnectionService.cs" /><Compile Include="Interfaces\ICredentialService.cs" /><Compile Include="Interfaces\IDiagnosticEngine.cs" /><Compile Include="Interfaces\IDiagnosticInterpreter.cs" /><Compile Include="Interfaces\IDiagnosticRepository.cs" /><Compile Include="Interfaces\IHealthScoreService.cs" /><Compile Include="Interfaces\IReportService.cs" /><Compile Include="Interfaces\ISqlServerService.cs" />
+    <Compile Include="Models\ApplicationInfo.cs" /><Compile Include="Models\ConnectionProfile.cs" /><Compile Include="Models\ConnectionTestResult.cs" /><Compile Include="Models\DatabaseConnection.cs" /><Compile Include="Models\DatabaseInfo.cs" /><Compile Include="Models\DiagnosticColumn.cs" /><Compile Include="Models\DiagnosticDefinition.cs" /><Compile Include="Models\DiagnosticExecutionContext.cs" /><Compile Include="Models\DiagnosticFinding.cs" /><Compile Include="Models\DiagnosticInterpretation.cs" /><Compile Include="Models\DiagnosticProgress.cs" /><Compile Include="Models\DiagnosticResult.cs" /><Compile Include="Models\DiagnosticResultSet.cs" /><Compile Include="Models\DiagnosticScorePolicy.cs" /><Compile Include="Models\HealthAssessmentPolicy.cs" /><Compile Include="Models\HealthCheckReport.cs" /><Compile Include="Models\HealthCoverage.cs" /><Compile Include="Models\HealthReport.cs" /><Compile Include="Models\HealthScore.cs" /><Compile Include="Models\HealthScoreBreakdown.cs" /><Compile Include="Models\LogicalHealthFinding.cs" /><Compile Include="Models\ReportOptions.cs" /><Compile Include="Models\ResultInterpretationPolicy.cs" /><Compile Include="Models\LogEvent.cs" /><Compile Include="Models\SqlQueryParameter.cs" /><Compile Include="Models\SqlQueryResult.cs" /><Compile Include="Models\SqlServerInfo.cs" /><Compile Include="Models\SqlServerVersion.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

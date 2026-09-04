@@ -15,6 +15,8 @@ A curated collection of **26 read-only SQL Server scripts for DBAs** covering da
 
 Each script is standalone: open it in SQL Server Management Studio (SSMS), Azure Data Studio, or another T-SQL client, select the correct database context, and review the evidence. Scripts do not automatically change user databases. When corrective SQL is useful, it is returned as text for review.
 
+> **Optional voluntary support: https://paypal.me/TheMaxLab**
+
 > **Find the issue → understand the evidence → validate the recommendation → make an informed change.**
 
 ## Find the right SQL Server script

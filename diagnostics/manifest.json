@@ -1,0 +1,1089 @@
+{
+    "schemaVersion":  1,
+    "diagnostics":  [
+                        {
+                            "id":  "blocking-sessions",
+                            "name":  "Blocking Sessions",
+                            "description":  "Identifies currently blocked requests in the selected database and their direct blockers.",
+                            "category":  "Performance",
+                            "scriptPath":  "Performance/blocking_sessions.sql",
+                            "originalPath":  "diagnostics/blocking_sessions.sql",
+                            "readOnly":  true,
+                            "healthCheckEnabled":  true,
+                            "executionCost":  "Low",
+                            "executionScope":  "Database",
+                            "minimumSqlServerVersion":  "2016",
+                            "maximumSqlServerVersion":  null,
+                            "requiresQueryStore":  false,
+                            "requiredPermissions":  [
+                                                        "VIEW SERVER STATE; SQL Server 2022+ may require VIEW SERVER PERFORMANCE STATE"
+                                                    ],
+                            "supportsAzureSql":  false,
+                            "multipleResultSets":  false,
+                            "defaultSeverity":  "Warning",
+                            "deduplicationGroup":  "active-concurrency",
+                            "timeoutSeconds":  30,
+                            "tags":  [
+                                         "concurrency",
+                                         "active-requests"
+                                     ],
+                            "compatibilityNotes":  "Point-in-time instance DMV data filtered to the selected database; Azure visibility varies.",
+                            "resultInterpretation":  {
+                                                         "mode":  "FindingContract",
+                                                         "emptyResultMeaning":  "Healthy",
+                                                         "impact":  "High",
+                                                         "confidence":  "High"
+                                                     },
+                            "scorePolicy":  {
+                                                "scoreEligible":  true,
+                                                "weight":  1,
+                                                "criticalPenaltyFraction":  1,
+                                                "warningPenaltyFraction":  0.5,
+                                                "informationPenaltyFraction":  0
+                                            }
+                        },
+                        {
+                            "id":  "database-configuration",
+                            "name":  "Database Configuration",
+                            "description":  "Reviews current-database configuration choices that commonly deserve DBA review.",
+                            "category":  "Schema",
+                            "scriptPath":  "Schema/database_configuration.sql",
+                            "originalPath":  "diagnostics/database_configuration.sql",
+                            "readOnly":  true,
+                            "healthCheckEnabled":  true,
+                            "executionCost":  "Low",
+                            "executionScope":  "Database",
+                            "minimumSqlServerVersion":  "2016",
+                            "maximumSqlServerVersion":  null,
+                            "requiresQueryStore":  false,
+                            "requiredPermissions":  [
+                                                        "Metadata visibility for the selected database"
+                                                    ],
+                            "supportsAzureSql":  true,
+                            "multipleResultSets":  false,
+                            "defaultSeverity":  "Information",
+                            "deduplicationGroup":  "database-configuration",
+                            "timeoutSeconds":  30,
+                            "tags":  [
+                                         "configuration"
+                                     ],
+                            "compatibilityNotes":  "One row can describe multiple settings but reports the first matching finding.",
+                            "resultInterpretation":  {
+                                                         "mode":  "FindingContract",
+                                                         "emptyResultMeaning":  "NotApplicable",
+                                                         "impact":  "Medium",
+                                                         "confidence":  "High"
+                                                     },
+                            "scorePolicy":  {
+                                                "scoreEligible":  true,
+                                                "weight":  1,
+                                                "criticalPenaltyFraction":  1,
+                                                "warningPenaltyFraction":  0.5,
+                                                "informationPenaltyFraction":  0
+                                            }
+                        },
+                        {
+                            "id":  "database-health",
+                            "name":  "Database Health",
+                            "description":  "Checks database state, configuration, backup history, and transaction-log conditions.",
+                            "category":  "Integrity",
+                            "scriptPath":  "Integrity/database_health.sql",
+                            "originalPath":  "diagnostics/database_health.sql",
+                            "readOnly":  true,
+                            "healthCheckEnabled":  false,
+                            "executionCost":  "Medium",
+                            "executionScope":  "Database",
+                            "minimumSqlServerVersion":  "2016",
+                            "maximumSqlServerVersion":  null,
+                            "requiresQueryStore":  false,
+                            "requiredPermissions":  [
+                                                        "VIEW DATABASE STATE",
+                                                        "Read access to msdb backup history"
+                                                    ],
+                            "supportsAzureSql":  false,
+                            "multipleResultSets":  false,
+                            "defaultSeverity":  "Warning",
+                            "deduplicationGroup":  "database-health-summary",
+                            "timeoutSeconds":  60,
+                            "tags":  [
+                                         "database",
+                                         "backup",
+                                         "transaction-log",
+                                         "configuration"
+                                     ],
+                            "compatibilityNotes":  "Overlaps focused configuration, backup, and storage diagnostics; msdb behavior differs on Azure SQL Database.",
+                            "resultInterpretation":  {
+                                                         "mode":  "Custom",
+                                                         "emptyResultMeaning":  "Healthy",
+                                                         "impact":  "High",
+                                                         "confidence":  "High"
+                                                     },
+                            "scorePolicy":  {
+                                                "scoreEligible":  false,
+                                                "weight":  1,
+                                                "criticalPenaltyFraction":  1,
+                                                "warningPenaltyFraction":  0.5,
+                                                "informationPenaltyFraction":  0
+                                            }
+                        },
+                        {
+                            "id":  "long-running-queries",
+                            "name":  "Long-Running Queries",
+                            "description":  "Finds active user requests in the selected database running for at least 60 seconds.",
+                            "category":  "Performance",
+                            "scriptPath":  "Performance/long_running_queries.sql",
+                            "originalPath":  "diagnostics/long_running_queries.sql",
+                            "readOnly":  true,
+                            "healthCheckEnabled":  true,
+                            "executionCost":  "Low",
+                            "executionScope":  "Database",
+                            "minimumSqlServerVersion":  "2016",
+                            "maximumSqlServerVersion":  null,
+                            "requiresQueryStore":  false,
+                            "requiredPermissions":  [
+                                                        "VIEW SERVER STATE; SQL Server 2022+ may require VIEW SERVER PERFORMANCE STATE"
+                                                    ],
+                            "supportsAzureSql":  false,
+                            "multipleResultSets":  false,
+                            "defaultSeverity":  "Warning",
+                            "deduplicationGroup":  "active-queries",
+                            "timeoutSeconds":  30,
+                            "tags":  [
+                                         "active-requests",
+                                         "query"
+                                     ],
+                            "compatibilityNotes":  "Point-in-time data; SQL text can be unavailable or sensitive.",
+                            "resultInterpretation":  {
+                                                         "mode":  "FindingContract",
+                                                         "emptyResultMeaning":  "Healthy",
+                                                         "impact":  "Medium",
+                                                         "confidence":  "High"
+                                                     },
+                            "scorePolicy":  {
+                                                "scoreEligible":  true,
+                                                "weight":  1,
+                                                "criticalPenaltyFraction":  1,
+                                                "warningPenaltyFraction":  0.5,
+                                                "informationPenaltyFraction":  0
+                                            }
+                        },
+                        {
+                            "id":  "memory-pressure",
+                            "name":  "Memory Pressure",
+                            "description":  "Provides a SQL Server process and operating-system memory pressure snapshot.",
+                            "category":  "Performance",
+                            "scriptPath":  "Performance/memory_pressure.sql",
+                            "originalPath":  "diagnostics/memory_pressure.sql",
+                            "readOnly":  true,
+                            "healthCheckEnabled":  true,
+                            "executionCost":  "Low",
+                            "executionScope":  "Instance",
+                            "minimumSqlServerVersion":  "2016",
+                            "maximumSqlServerVersion":  null,
+                            "requiresQueryStore":  false,
+                            "requiredPermissions":  [
+                                                        "VIEW SERVER STATE; SQL Server 2022+ may require VIEW SERVER PERFORMANCE STATE"
+                                                    ],
+                            "supportsAzureSql":  false,
+                            "multipleResultSets":  true,
+                            "defaultSeverity":  "Information",
+                            "deduplicationGroup":  "memory-pressure",
+                            "timeoutSeconds":  30,
+                            "tags":  [
+                                         "memory",
+                                         "server"
+                                     ],
+                            "compatibilityNotes":  "Host memory DMVs are not generally applicable to Azure SQL Database; a single snapshot is not a trend.",
+                            "resultInterpretation":  {
+                                                         "mode":  "FindingContract",
+                                                         "emptyResultMeaning":  "NotApplicable",
+                                                         "impact":  "High",
+                                                         "confidence":  "High"
+                                                     },
+                            "scorePolicy":  {
+                                                "scoreEligible":  true,
+                                                "weight":  1,
+                                                "criticalPenaltyFraction":  1,
+                                                "warningPenaltyFraction":  0.5,
+                                                "informationPenaltyFraction":  0
+                                            }
+                        },
+                        {
+                            "id":  "open-transactions",
+                            "name":  "Open Transactions",
+                            "description":  "Identifies open user transactions in the selected database, including age and log use.",
+                            "category":  "Performance",
+                            "scriptPath":  "Performance/open_transactions.sql",
+                            "originalPath":  "diagnostics/open_transactions.sql",
+                            "readOnly":  true,
+                            "healthCheckEnabled":  true,
+                            "executionCost":  "Low",
+                            "executionScope":  "Database",
+                            "minimumSqlServerVersion":  "2016",
+                            "maximumSqlServerVersion":  null,
+                            "requiresQueryStore":  false,
+                            "requiredPermissions":  [
+                                                        "VIEW SERVER STATE; SQL Server 2022+ may require VIEW SERVER PERFORMANCE STATE"
+                                                    ],
+                            "supportsAzureSql":  false,
+                            "multipleResultSets":  false,
+                            "defaultSeverity":  "Warning",
+                            "deduplicationGroup":  "active-concurrency",
+                            "timeoutSeconds":  30,
+                            "tags":  [
+                                         "transactions",
+                                         "concurrency"
+                                     ],
+                            "compatibilityNotes":  "Point-in-time session data; recent SQL can differ from the statement that opened the transaction.",
+                            "resultInterpretation":  {
+                                                         "mode":  "FindingContract",
+                                                         "emptyResultMeaning":  "Healthy",
+                                                         "impact":  "High",
+                                                         "confidence":  "High"
+                                                     },
+                            "scorePolicy":  {
+                                                "scoreEligible":  true,
+                                                "weight":  1,
+                                                "criticalPenaltyFraction":  1,
+                                                "warningPenaltyFraction":  0.5,
+                                                "informationPenaltyFraction":  0
+                                            }
+                        },
+                        {
+                            "id":  "tempdb-usage",
+                            "name":  "TempDB Usage",
+                            "description":  "Reports overall TempDB allocation and the highest-consuming sessions.",
+                            "category":  "Performance",
+                            "scriptPath":  "Performance/tempdb_usage.sql",
+                            "originalPath":  "diagnostics/tempdb_usage.sql",
+                            "readOnly":  true,
+                            "healthCheckEnabled":  true,
+                            "executionCost":  "Medium",
+                            "executionScope":  "Instance",
+                            "minimumSqlServerVersion":  "2016",
+                            "maximumSqlServerVersion":  null,
+                            "requiresQueryStore":  false,
+                            "requiredPermissions":  [
+                                                        "VIEW SERVER STATE; SQL Server 2022+ may require VIEW SERVER PERFORMANCE STATE"
+                                                    ],
+                            "supportsAzureSql":  false,
+                            "multipleResultSets":  false,
+                            "defaultSeverity":  "Warning",
+                            "deduplicationGroup":  "tempdb-capacity",
+                            "timeoutSeconds":  60,
+                            "tags":  [
+                                         "tempdb",
+                                         "storage",
+                                         "active-sessions"
+                                     ],
+                            "compatibilityNotes":  "Cross-database TempDB and instance-session assumptions limit Azure SQL Database portability.",
+                            "resultInterpretation":  {
+                                                         "mode":  "FindingContract",
+                                                         "emptyResultMeaning":  "NotApplicable",
+                                                         "impact":  "High",
+                                                         "confidence":  "High"
+                                                     },
+                            "scorePolicy":  {
+                                                "scoreEligible":  true,
+                                                "weight":  1,
+                                                "criticalPenaltyFraction":  1,
+                                                "warningPenaltyFraction":  0.5,
+                                                "informationPenaltyFraction":  0
+                                            }
+                        },
+                        {
+                            "id":  "wait-statistics",
+                            "name":  "Wait Statistics",
+                            "description":  "Ranks significant cumulative SQL Server instance wait types.",
+                            "category":  "Performance",
+                            "scriptPath":  "Performance/wait_stats.sql",
+                            "originalPath":  "diagnostics/wait_stats.sql",
+                            "readOnly":  true,
+                            "healthCheckEnabled":  true,
+                            "executionCost":  "Low",
+                            "executionScope":  "Instance",
+                            "minimumSqlServerVersion":  "2016",
+                            "maximumSqlServerVersion":  null,
+                            "requiresQueryStore":  false,
+                            "requiredPermissions":  [
+                                                        "VIEW SERVER STATE; SQL Server 2022+ requires VIEW SERVER PERFORMANCE STATE"
+                                                    ],
+                            "supportsAzureSql":  false,
+                            "multipleResultSets":  false,
+                            "defaultSeverity":  "Information",
+                            "deduplicationGroup":  "wait-statistics",
+                            "timeoutSeconds":  30,
+                            "tags":  [
+                                         "waits",
+                                         "instance"
+                                     ],
+                            "compatibilityNotes":  "Values are cumulative and instance-wide; the exclusion list is version-sensitive.",
+                            "resultInterpretation":  {
+                                                         "mode":  "Inventory",
+                                                         "emptyResultMeaning":  "Informational",
+                                                         "impact":  "Unknown",
+                                                         "confidence":  "Low"
+                                                     },
+                            "scorePolicy":  {
+                                                "scoreEligible":  false,
+                                                "weight":  1,
+                                                "criticalPenaltyFraction":  1,
+                                                "warningPenaltyFraction":  0.5,
+                                                "informationPenaltyFraction":  0
+                                            }
+                        },
+                        {
+                            "id":  "foreign-key-analysis",
+                            "name":  "Foreign Key Analysis",
+                            "description":  "Finds disabled, untrusted, or potentially unindexed foreign keys.",
+                            "category":  "Integrity",
+                            "scriptPath":  "Integrity/fk_analysis.sql",
+                            "originalPath":  "integrity/fk_analysis.sql",
+                            "readOnly":  true,
+                            "healthCheckEnabled":  true,
+                            "executionCost":  "Low",
+                            "executionScope":  "Database",
+                            "minimumSqlServerVersion":  "2016",
+                            "maximumSqlServerVersion":  null,
+                            "requiresQueryStore":  false,
+                            "requiredPermissions":  [
+                                                        "Metadata visibility on participating objects"
+                                                    ],
+                            "supportsAzureSql":  true,
+                            "multipleResultSets":  false,
+                            "defaultSeverity":  "Warning",
+                            "deduplicationGroup":  "foreign-key-integrity",
+                            "timeoutSeconds":  30,
+                            "tags":  [
+                                         "foreign-keys",
+                                         "indexes"
+                                     ],
+                            "compatibilityNotes":  "Index coverage detection is conservative and does not prove an index is required.",
+                            "resultInterpretation":  {
+                                                         "mode":  "FindingContract",
+                                                         "emptyResultMeaning":  "Healthy",
+                                                         "impact":  "High",
+                                                         "confidence":  "High"
+                                                     },
+                            "scorePolicy":  {
+                                                "scoreEligible":  true,
+                                                "weight":  1,
+                                                "criticalPenaltyFraction":  1,
+                                                "warningPenaltyFraction":  0.5,
+                                                "informationPenaltyFraction":  0
+                                            }
+                        },
+                        {
+                            "id":  "orphaned-records",
+                            "name":  "Orphaned Records",
+                            "description":  "Scans foreign-key relationships for child rows without a matching parent.",
+                            "category":  "Integrity",
+                            "scriptPath":  "Integrity/orphaned_records.sql",
+                            "originalPath":  "integrity/orphaned_records.sql",
+                            "readOnly":  true,
+                            "healthCheckEnabled":  false,
+                            "executionCost":  "High",
+                            "executionScope":  "Database",
+                            "minimumSqlServerVersion":  "2016",
+                            "maximumSqlServerVersion":  null,
+                            "requiresQueryStore":  false,
+                            "requiredPermissions":  [
+                                                        "Metadata visibility",
+                                                        "SELECT on participating tables"
+                                                    ],
+                            "supportsAzureSql":  true,
+                            "multipleResultSets":  false,
+                            "defaultSeverity":  "Warning",
+                            "deduplicationGroup":  "foreign-key-integrity",
+                            "timeoutSeconds":  300,
+                            "tags":  [
+                                         "foreign-keys",
+                                         "data-validation",
+                                         "high-cost"
+                                     ],
+                            "compatibilityNotes":  "Potentially scans every child table. It writes only to a local temporary table and does not modify persistent data.",
+                            "resultInterpretation":  {
+                                                         "mode":  "Custom",
+                                                         "emptyResultMeaning":  "Healthy",
+                                                         "impact":  "Critical",
+                                                         "confidence":  "High"
+                                                     },
+                            "scorePolicy":  {
+                                                "scoreEligible":  false,
+                                                "weight":  1,
+                                                "criticalPenaltyFraction":  1,
+                                                "warningPenaltyFraction":  0.5,
+                                                "informationPenaltyFraction":  0
+                                            }
+                        },
+                        {
+                            "id":  "untrusted-constraints",
+                            "name":  "Untrusted Constraints",
+                            "description":  "Reports disabled or untrusted foreign-key and check constraints.",
+                            "category":  "Integrity",
+                            "scriptPath":  "Integrity/untrusted_constraints.sql",
+                            "originalPath":  "integrity/untrusted_constraints.sql",
+                            "readOnly":  true,
+                            "healthCheckEnabled":  true,
+                            "executionCost":  "Low",
+                            "executionScope":  "Database",
+                            "minimumSqlServerVersion":  "2016",
+                            "maximumSqlServerVersion":  null,
+                            "requiresQueryStore":  false,
+                            "requiredPermissions":  [
+                                                        "Metadata visibility on constraints and related tables"
+                                                    ],
+                            "supportsAzureSql":  true,
+                            "multipleResultSets":  false,
+                            "defaultSeverity":  "Warning",
+                            "deduplicationGroup":  "foreign-key-integrity",
+                            "timeoutSeconds":  30,
+                            "tags":  [
+                                         "foreign-keys",
+                                         "check-constraints"
+                                     ],
+                            "compatibilityNotes":  "Does not test whether current data satisfies each constraint; validation SQL is output only.",
+                            "resultInterpretation":  {
+                                                         "mode":  "FindingContract",
+                                                         "emptyResultMeaning":  "Healthy",
+                                                         "impact":  "Critical",
+                                                         "confidence":  "High"
+                                                     },
+                            "scorePolicy":  {
+                                                "scoreEligible":  true,
+                                                "weight":  1,
+                                                "criticalPenaltyFraction":  1,
+                                                "warningPenaltyFraction":  0.5,
+                                                "informationPenaltyFraction":  0
+                                            }
+                        },
+                        {
+                            "id":  "backup-health",
+                            "name":  "Backup Health",
+                            "description":  "Reviews recent full, differential, and log backup history for online user databases.",
+                            "category":  "Integrity",
+                            "scriptPath":  "Integrity/backup_health.sql",
+                            "originalPath":  "maintenance/backup_health.sql",
+                            "readOnly":  true,
+                            "healthCheckEnabled":  true,
+                            "executionCost":  "Low",
+                            "executionScope":  "Instance",
+                            "minimumSqlServerVersion":  "2016",
+                            "maximumSqlServerVersion":  null,
+                            "requiresQueryStore":  false,
+                            "requiredPermissions":  [
+                                                        "Read access to sys.databases and msdb backup history"
+                                                    ],
+                            "supportsAzureSql":  false,
+                            "multipleResultSets":  false,
+                            "defaultSeverity":  "Information",
+                            "deduplicationGroup":  "backup-health",
+                            "timeoutSeconds":  30,
+                            "tags":  [
+                                         "backup",
+                                         "recovery",
+                                         "instance"
+                                     ],
+                            "compatibilityNotes":  "Backup history can be purged or bypassed and does not prove recoverability.",
+                            "resultInterpretation":  {
+                                                         "mode":  "FindingContract",
+                                                         "emptyResultMeaning":  "NotApplicable",
+                                                         "impact":  "Critical",
+                                                         "confidence":  "Medium"
+                                                     },
+                            "scorePolicy":  {
+                                                "scoreEligible":  true,
+                                                "weight":  1,
+                                                "criticalPenaltyFraction":  1,
+                                                "warningPenaltyFraction":  0.5,
+                                                "informationPenaltyFraction":  0
+                                            }
+                        },
+                        {
+                            "id":  "database-sizes",
+                            "name":  "Database Sizes",
+                            "description":  "Reports database files, allocation, free space, log use, MAXSIZE, and autogrowth.",
+                            "category":  "Schema",
+                            "scriptPath":  "Schema/database_sizes.sql",
+                            "originalPath":  "maintenance/database_sizes.sql",
+                            "readOnly":  true,
+                            "healthCheckEnabled":  true,
+                            "executionCost":  "Low",
+                            "executionScope":  "Database",
+                            "minimumSqlServerVersion":  "2016",
+                            "maximumSqlServerVersion":  null,
+                            "requiresQueryStore":  false,
+                            "requiredPermissions":  [
+                                                        "VIEW DATABASE STATE"
+                                                    ],
+                            "supportsAzureSql":  false,
+                            "multipleResultSets":  false,
+                            "defaultSeverity":  "Information",
+                            "deduplicationGroup":  "database-file-capacity",
+                            "timeoutSeconds":  30,
+                            "tags":  [
+                                         "storage",
+                                         "capacity",
+                                         "transaction-log"
+                                     ],
+                            "compatibilityNotes":  "Internal file free space is not underlying volume capacity; Azure file management differs.",
+                            "resultInterpretation":  {
+                                                         "mode":  "FindingContract",
+                                                         "emptyResultMeaning":  "NotApplicable",
+                                                         "impact":  "High",
+                                                         "confidence":  "High"
+                                                     },
+                            "scorePolicy":  {
+                                                "scoreEligible":  false,
+                                                "weight":  1,
+                                                "criticalPenaltyFraction":  1,
+                                                "warningPenaltyFraction":  0.5,
+                                                "informationPenaltyFraction":  0
+                                            }
+                        },
+                        {
+                            "id":  "file-space",
+                            "name":  "File Space",
+                            "description":  "Provides a compact review of file size, free space, and growth settings.",
+                            "category":  "Schema",
+                            "scriptPath":  "Schema/file_space.sql",
+                            "originalPath":  "maintenance/file_space.sql",
+                            "readOnly":  true,
+                            "healthCheckEnabled":  false,
+                            "executionCost":  "Low",
+                            "executionScope":  "Database",
+                            "minimumSqlServerVersion":  "2016",
+                            "maximumSqlServerVersion":  null,
+                            "requiresQueryStore":  false,
+                            "requiredPermissions":  [
+                                                        "Database file metadata visibility"
+                                                    ],
+                            "supportsAzureSql":  false,
+                            "multipleResultSets":  false,
+                            "defaultSeverity":  "Information",
+                            "deduplicationGroup":  "database-file-capacity",
+                            "timeoutSeconds":  30,
+                            "tags":  [
+                                         "storage",
+                                         "capacity"
+                                     ],
+                            "compatibilityNotes":  "Overlaps database-sizes and does not report transaction-log utilization.",
+                            "resultInterpretation":  {
+                                                         "mode":  "FindingContract",
+                                                         "emptyResultMeaning":  "NotApplicable",
+                                                         "impact":  "High",
+                                                         "confidence":  "High"
+                                                     },
+                            "scorePolicy":  {
+                                                "scoreEligible":  false,
+                                                "weight":  1,
+                                                "criticalPenaltyFraction":  1,
+                                                "warningPenaltyFraction":  0.5,
+                                                "informationPenaltyFraction":  0
+                                            }
+                        },
+                        {
+                            "id":  "index-fragmentation",
+                            "name":  "Index Fragmentation",
+                            "description":  "Finds fragmented rowstore indexes using LIMITED physical statistics.",
+                            "category":  "Indexes",
+                            "scriptPath":  "Indexes/fragmentation.sql",
+                            "originalPath":  "maintenance/fragmentation.sql",
+                            "readOnly":  true,
+                            "healthCheckEnabled":  false,
+                            "executionCost":  "High",
+                            "executionScope":  "Database",
+                            "minimumSqlServerVersion":  "2016",
+                            "maximumSqlServerVersion":  null,
+                            "requiresQueryStore":  false,
+                            "requiredPermissions":  [
+                                                        "VIEW DATABASE STATE"
+                                                    ],
+                            "supportsAzureSql":  true,
+                            "multipleResultSets":  false,
+                            "defaultSeverity":  "Warning",
+                            "deduplicationGroup":  "index-maintenance",
+                            "timeoutSeconds":  120,
+                            "tags":  [
+                                         "fragmentation",
+                                         "physical-statistics",
+                                         "high-cost"
+                                     ],
+                            "compatibilityNotes":  "Physical-statistics access can be expensive; percentage thresholds are review heuristics.",
+                            "resultInterpretation":  {
+                                                         "mode":  "FindingContract",
+                                                         "emptyResultMeaning":  "Healthy",
+                                                         "impact":  "Medium",
+                                                         "confidence":  "Medium"
+                                                     },
+                            "scorePolicy":  {
+                                                "scoreEligible":  false,
+                                                "weight":  1,
+                                                "criticalPenaltyFraction":  1,
+                                                "warningPenaltyFraction":  0.5,
+                                                "informationPenaltyFraction":  0
+                                            }
+                        },
+                        {
+                            "id":  "statistics-health",
+                            "name":  "Statistics Health",
+                            "description":  "Finds uninitialized or highly modified statistics using a practical threshold.",
+                            "category":  "Performance",
+                            "scriptPath":  "Performance/statistics.sql",
+                            "originalPath":  "maintenance/statistics.sql",
+                            "readOnly":  true,
+                            "healthCheckEnabled":  true,
+                            "executionCost":  "Medium",
+                            "executionScope":  "Database",
+                            "minimumSqlServerVersion":  "2012",
+                            "maximumSqlServerVersion":  null,
+                            "requiresQueryStore":  false,
+                            "requiredPermissions":  [
+                                                        "Metadata visibility",
+                                                        "VIEW DATABASE STATE where required for statistics properties"
+                                                    ],
+                            "supportsAzureSql":  true,
+                            "multipleResultSets":  false,
+                            "defaultSeverity":  "Warning",
+                            "deduplicationGroup":  "statistics-health",
+                            "timeoutSeconds":  60,
+                            "tags":  [
+                                         "statistics",
+                                         "maintenance"
+                                     ],
+                            "compatibilityNotes":  "Thresholds do not prove a statistic causes a regression; partitioned and incremental statistics need context.",
+                            "resultInterpretation":  {
+                                                         "mode":  "FindingContract",
+                                                         "emptyResultMeaning":  "Healthy",
+                                                         "impact":  "Medium",
+                                                         "confidence":  "Medium"
+                                                     },
+                            "scorePolicy":  {
+                                                "scoreEligible":  true,
+                                                "weight":  1,
+                                                "criticalPenaltyFraction":  1,
+                                                "warningPenaltyFraction":  0.5,
+                                                "informationPenaltyFraction":  0
+                                            }
+                        },
+                        {
+                            "id":  "expensive-queries",
+                            "name":  "Expensive Queries",
+                            "description":  "Ranks cached statements by average and cumulative duration, CPU, reads, and writes.",
+                            "category":  "Performance",
+                            "scriptPath":  "Performance/expensive_queries.sql",
+                            "originalPath":  "performance/expensive_queries.sql",
+                            "readOnly":  true,
+                            "healthCheckEnabled":  true,
+                            "executionCost":  "Medium",
+                            "executionScope":  "Database",
+                            "minimumSqlServerVersion":  "2016",
+                            "maximumSqlServerVersion":  null,
+                            "requiresQueryStore":  false,
+                            "requiredPermissions":  [
+                                                        "VIEW SERVER STATE; SQL Server 2022+ may require VIEW SERVER PERFORMANCE STATE"
+                                                    ],
+                            "supportsAzureSql":  true,
+                            "multipleResultSets":  false,
+                            "defaultSeverity":  "Warning",
+                            "deduplicationGroup":  "cached-query-performance",
+                            "timeoutSeconds":  60,
+                            "tags":  [
+                                         "plan-cache",
+                                         "query"
+                                     ],
+                            "compatibilityNotes":  "Plan-cache evidence is transient and SQL text may be unavailable or sensitive.",
+                            "resultInterpretation":  {
+                                                         "mode":  "FindingContract",
+                                                         "emptyResultMeaning":  "Unknown",
+                                                         "impact":  "Medium",
+                                                         "confidence":  "Medium"
+                                                     },
+                            "scorePolicy":  {
+                                                "scoreEligible":  false,
+                                                "weight":  1,
+                                                "criticalPenaltyFraction":  1,
+                                                "warningPenaltyFraction":  0.5,
+                                                "informationPenaltyFraction":  0
+                                            }
+                        },
+                        {
+                            "id":  "high-cpu-queries",
+                            "name":  "High CPU Queries",
+                            "description":  "Finds cached statements with elevated average or cumulative CPU consumption.",
+                            "category":  "Performance",
+                            "scriptPath":  "Performance/high_cpu_queries.sql",
+                            "originalPath":  "performance/high_cpu_queries.sql",
+                            "readOnly":  true,
+                            "healthCheckEnabled":  false,
+                            "executionCost":  "Medium",
+                            "executionScope":  "Database",
+                            "minimumSqlServerVersion":  "2016",
+                            "maximumSqlServerVersion":  null,
+                            "requiresQueryStore":  false,
+                            "requiredPermissions":  [
+                                                        "VIEW SERVER STATE; SQL Server 2022+ may require VIEW SERVER PERFORMANCE STATE"
+                                                    ],
+                            "supportsAzureSql":  true,
+                            "multipleResultSets":  false,
+                            "defaultSeverity":  "Warning",
+                            "deduplicationGroup":  "cached-query-performance",
+                            "timeoutSeconds":  60,
+                            "tags":  [
+                                         "cpu",
+                                         "plan-cache",
+                                         "query"
+                                     ],
+                            "compatibilityNotes":  "Overlaps expensive-queries; plan-cache totals reset and can be workload-biased.",
+                            "resultInterpretation":  {
+                                                         "mode":  "FindingContract",
+                                                         "emptyResultMeaning":  "Unknown",
+                                                         "impact":  "Medium",
+                                                         "confidence":  "Medium"
+                                                     },
+                            "scorePolicy":  {
+                                                "scoreEligible":  false,
+                                                "weight":  1,
+                                                "criticalPenaltyFraction":  1,
+                                                "warningPenaltyFraction":  0.5,
+                                                "informationPenaltyFraction":  0
+                                            }
+                        },
+                        {
+                            "id":  "index-analysis",
+                            "name":  "Index Analysis",
+                            "description":  "Correlates index usage, duplicate key signatures, size, and fragmentation.",
+                            "category":  "Indexes",
+                            "scriptPath":  "Indexes/index_analysis.sql",
+                            "originalPath":  "performance/index_analysis.sql",
+                            "readOnly":  true,
+                            "healthCheckEnabled":  false,
+                            "executionCost":  "High",
+                            "executionScope":  "Database",
+                            "minimumSqlServerVersion":  "2016",
+                            "maximumSqlServerVersion":  null,
+                            "requiresQueryStore":  false,
+                            "requiredPermissions":  [
+                                                        "VIEW DATABASE STATE"
+                                                    ],
+                            "supportsAzureSql":  true,
+                            "multipleResultSets":  false,
+                            "defaultSeverity":  "Warning",
+                            "deduplicationGroup":  "index-maintenance",
+                            "timeoutSeconds":  120,
+                            "tags":  [
+                                         "duplicate-indexes",
+                                         "unused-indexes",
+                                         "fragmentation",
+                                         "high-cost"
+                                     ],
+                            "compatibilityNotes":  "Duplicate-key comparison omits INCLUDE, filters, uniqueness, partitioning, compression, and options; usage counters are transient.",
+                            "resultInterpretation":  {
+                                                         "mode":  "FindingContract",
+                                                         "emptyResultMeaning":  "Healthy",
+                                                         "impact":  "Medium",
+                                                         "confidence":  "Medium"
+                                                     },
+                            "scorePolicy":  {
+                                                "scoreEligible":  false,
+                                                "weight":  1,
+                                                "criticalPenaltyFraction":  1,
+                                                "warningPenaltyFraction":  0.5,
+                                                "informationPenaltyFraction":  0
+                                            }
+                        },
+                        {
+                            "id":  "memory-grants",
+                            "name":  "Memory Grants",
+                            "description":  "Finds active and waiting query memory grants associated with the selected database.",
+                            "category":  "Performance",
+                            "scriptPath":  "Performance/memory_grants.sql",
+                            "originalPath":  "performance/memory_grants.sql",
+                            "readOnly":  true,
+                            "healthCheckEnabled":  true,
+                            "executionCost":  "Low",
+                            "executionScope":  "Database",
+                            "minimumSqlServerVersion":  "2016",
+                            "maximumSqlServerVersion":  null,
+                            "requiresQueryStore":  false,
+                            "requiredPermissions":  [
+                                                        "VIEW SERVER STATE; SQL Server 2022+ may require VIEW SERVER PERFORMANCE STATE"
+                                                    ],
+                            "supportsAzureSql":  true,
+                            "multipleResultSets":  false,
+                            "defaultSeverity":  "Warning",
+                            "deduplicationGroup":  "memory-grants",
+                            "timeoutSeconds":  30,
+                            "tags":  [
+                                         "memory",
+                                         "active-requests"
+                                     ],
+                            "compatibilityNotes":  "Point-in-time data; requests with no current database can be included.",
+                            "resultInterpretation":  {
+                                                         "mode":  "FindingContract",
+                                                         "emptyResultMeaning":  "Healthy",
+                                                         "impact":  "High",
+                                                         "confidence":  "High"
+                                                     },
+                            "scorePolicy":  {
+                                                "scoreEligible":  true,
+                                                "weight":  1,
+                                                "criticalPenaltyFraction":  1,
+                                                "warningPenaltyFraction":  0.5,
+                                                "informationPenaltyFraction":  0
+                                            }
+                        },
+                        {
+                            "id":  "missing-indexes",
+                            "name":  "Missing Indexes",
+                            "description":  "Ranks missing nonclustered-index candidates from SQL Server DMVs.",
+                            "category":  "Indexes",
+                            "scriptPath":  "Indexes/missing_indexes.sql",
+                            "originalPath":  "performance/missing_indexes.sql",
+                            "readOnly":  true,
+                            "healthCheckEnabled":  true,
+                            "executionCost":  "Low",
+                            "executionScope":  "Database",
+                            "minimumSqlServerVersion":  "2016",
+                            "maximumSqlServerVersion":  null,
+                            "requiresQueryStore":  false,
+                            "requiredPermissions":  [
+                                                        "VIEW SERVER STATE or VIEW DATABASE STATE; SQL Server 2022+ may require the corresponding PERFORMANCE STATE permission"
+                                                    ],
+                            "supportsAzureSql":  true,
+                            "multipleResultSets":  false,
+                            "defaultSeverity":  "Warning",
+                            "deduplicationGroup":  "missing-indexes",
+                            "timeoutSeconds":  30,
+                            "tags":  [
+                                         "missing-indexes",
+                                         "dmv",
+                                         "indexing"
+                                     ],
+                            "compatibilityNotes":  "DMV recommendations are transient, capped, can overlap, and are candidates rather than automatic changes.",
+                            "resultInterpretation":  {
+                                                         "mode":  "FindingContract",
+                                                         "emptyResultMeaning":  "Unknown",
+                                                         "impact":  "Medium",
+                                                         "confidence":  "Medium"
+                                                     },
+                            "scorePolicy":  {
+                                                "scoreEligible":  false,
+                                                "weight":  1,
+                                                "criticalPenaltyFraction":  1,
+                                                "warningPenaltyFraction":  0.5,
+                                                "informationPenaltyFraction":  0
+                                            }
+                        },
+                        {
+                            "id":  "query-plan-candidates",
+                            "name":  "Query Plan Candidates",
+                            "description":  "Searches cached XML plans for implicit conversions, TempDB spills, and costly scans.",
+                            "category":  "Performance",
+                            "scriptPath":  "Performance/query_plan_candidates.sql",
+                            "originalPath":  "performance/query_plan_candidates.sql",
+                            "readOnly":  true,
+                            "healthCheckEnabled":  false,
+                            "executionCost":  "High",
+                            "executionScope":  "Database",
+                            "minimumSqlServerVersion":  "2016",
+                            "maximumSqlServerVersion":  null,
+                            "requiresQueryStore":  false,
+                            "requiredPermissions":  [
+                                                        "VIEW SERVER STATE; SQL Server 2022+ may require VIEW SERVER PERFORMANCE STATE"
+                                                    ],
+                            "supportsAzureSql":  true,
+                            "multipleResultSets":  false,
+                            "defaultSeverity":  "Warning",
+                            "deduplicationGroup":  "cached-query-performance",
+                            "timeoutSeconds":  120,
+                            "tags":  [
+                                         "implicit-conversion",
+                                         "tempdb-spill",
+                                         "xml-plan",
+                                         "high-cost"
+                                     ],
+                            "compatibilityNotes":  "Serialized XML string matching can be expensive and can produce false positives or negatives.",
+                            "resultInterpretation":  {
+                                                         "mode":  "FindingContract",
+                                                         "emptyResultMeaning":  "Unknown",
+                                                         "impact":  "Medium",
+                                                         "confidence":  "Medium"
+                                                     },
+                            "scorePolicy":  {
+                                                "scoreEligible":  false,
+                                                "weight":  1,
+                                                "criticalPenaltyFraction":  1,
+                                                "warningPenaltyFraction":  0.5,
+                                                "informationPenaltyFraction":  0
+                                            }
+                        },
+                        {
+                            "id":  "query-store-regressions",
+                            "name":  "Query Store Regressions",
+                            "description":  "Compares recent Query Store duration with an earlier weighted baseline.",
+                            "category":  "Performance",
+                            "scriptPath":  "Performance/query_store_regressions.sql",
+                            "originalPath":  "performance/query_store_regressions.sql",
+                            "readOnly":  true,
+                            "healthCheckEnabled":  false,
+                            "executionCost":  "High",
+                            "executionScope":  "Database",
+                            "minimumSqlServerVersion":  "2016",
+                            "maximumSqlServerVersion":  null,
+                            "requiresQueryStore":  true,
+                            "requiredPermissions":  [
+                                                        "VIEW DATABASE STATE; SQL Server 2022+ may require VIEW DATABASE PERFORMANCE STATE"
+                                                    ],
+                            "supportsAzureSql":  true,
+                            "multipleResultSets":  false,
+                            "defaultSeverity":  "Warning",
+                            "deduplicationGroup":  "query-store-regression",
+                            "timeoutSeconds":  120,
+                            "tags":  [
+                                         "query-store",
+                                         "regression",
+                                         "high-cost"
+                                     ],
+                            "compatibilityNotes":  "Requires retained Query Store baseline and recent data; capture policy and cleanup affect results.",
+                            "resultInterpretation":  {
+                                                         "mode":  "FindingContract",
+                                                         "emptyResultMeaning":  "Unknown",
+                                                         "impact":  "High",
+                                                         "confidence":  "High"
+                                                     },
+                            "scorePolicy":  {
+                                                "scoreEligible":  false,
+                                                "weight":  1,
+                                                "criticalPenaltyFraction":  1,
+                                                "warningPenaltyFraction":  0.5,
+                                                "informationPenaltyFraction":  0
+                                            }
+                        },
+                        {
+                            "id":  "heap-analysis",
+                            "name":  "Heap Analysis",
+                            "description":  "Assesses heap size, forwarded records, page density, and fragmentation using SAMPLED physical statistics.",
+                            "category":  "Schema",
+                            "scriptPath":  "Schema/heap_analysis.sql",
+                            "originalPath":  "schema/heap_analysis.sql",
+                            "readOnly":  true,
+                            "healthCheckEnabled":  false,
+                            "executionCost":  "High",
+                            "executionScope":  "Database",
+                            "minimumSqlServerVersion":  "2016",
+                            "maximumSqlServerVersion":  null,
+                            "requiresQueryStore":  false,
+                            "requiredPermissions":  [
+                                                        "VIEW DATABASE STATE"
+                                                    ],
+                            "supportsAzureSql":  true,
+                            "multipleResultSets":  false,
+                            "defaultSeverity":  "Warning",
+                            "deduplicationGroup":  "heap-design",
+                            "timeoutSeconds":  300,
+                            "tags":  [
+                                         "heaps",
+                                         "physical-statistics",
+                                         "high-cost"
+                                     ],
+                            "compatibilityNotes":  "Runs SAMPLED physical statistics for each heap; all heaps are review candidates, not proven defects.",
+                            "resultInterpretation":  {
+                                                         "mode":  "FindingContract",
+                                                         "emptyResultMeaning":  "NotApplicable",
+                                                         "impact":  "Medium",
+                                                         "confidence":  "Medium"
+                                                     },
+                            "scorePolicy":  {
+                                                "scoreEligible":  false,
+                                                "weight":  1,
+                                                "criticalPenaltyFraction":  1,
+                                                "warningPenaltyFraction":  0.5,
+                                                "informationPenaltyFraction":  0
+                                            }
+                        },
+                        {
+                            "id":  "missing-primary-keys",
+                            "name":  "Missing Primary Keys",
+                            "description":  "Finds user tables without primary keys and reports structural context.",
+                            "category":  "Schema",
+                            "scriptPath":  "Schema/missing_primary_keys.sql",
+                            "originalPath":  "schema/missing_primary_keys.sql",
+                            "readOnly":  true,
+                            "healthCheckEnabled":  true,
+                            "executionCost":  "Low",
+                            "executionScope":  "Database",
+                            "minimumSqlServerVersion":  "2016",
+                            "maximumSqlServerVersion":  null,
+                            "requiresQueryStore":  false,
+                            "requiredPermissions":  [
+                                                        "Metadata visibility on user tables and indexes"
+                                                    ],
+                            "supportsAzureSql":  true,
+                            "multipleResultSets":  false,
+                            "defaultSeverity":  "Warning",
+                            "deduplicationGroup":  "primary-key-design",
+                            "timeoutSeconds":  30,
+                            "tags":  [
+                                         "primary-keys",
+                                         "data-model"
+                                     ],
+                            "compatibilityNotes":  "A missing primary key can be intentional; generated SQL contains a deliberate placeholder and is output only.",
+                            "resultInterpretation":  {
+                                                         "mode":  "FindingContract",
+                                                         "emptyResultMeaning":  "Healthy",
+                                                         "impact":  "Medium",
+                                                         "confidence":  "High"
+                                                     },
+                            "scorePolicy":  {
+                                                "scoreEligible":  false,
+                                                "weight":  1,
+                                                "criticalPenaltyFraction":  1,
+                                                "warningPenaltyFraction":  0.5,
+                                                "informationPenaltyFraction":  0
+                                            }
+                        },
+                        {
+                            "id":  "schema-type-patterns",
+                            "name":  "Schema Type Patterns",
+                            "description":  "Scans for missing primary keys, large heaps, deprecated LOB types, and unbounded MAX types.",
+                            "category":  "Schema",
+                            "scriptPath":  "Schema/schema_type_patterns.sql",
+                            "originalPath":  "schema/schema_type_patterns.sql",
+                            "readOnly":  true,
+                            "healthCheckEnabled":  false,
+                            "executionCost":  "Low",
+                            "executionScope":  "Database",
+                            "minimumSqlServerVersion":  "2016",
+                            "maximumSqlServerVersion":  null,
+                            "requiresQueryStore":  false,
+                            "requiredPermissions":  [
+                                                        "Metadata visibility on user tables and columns"
+                                                    ],
+                            "supportsAzureSql":  true,
+                            "multipleResultSets":  false,
+                            "defaultSeverity":  "Warning",
+                            "deduplicationGroup":  "schema-patterns",
+                            "timeoutSeconds":  30,
+                            "tags":  [
+                                         "data-types",
+                                         "heaps",
+                                         "primary-keys"
+                                     ],
+                            "compatibilityNotes":  "Broad review overlaps focused heap and primary-key diagnostics; MAX types are not inherently problematic.",
+                            "resultInterpretation":  {
+                                                         "mode":  "FindingContract",
+                                                         "emptyResultMeaning":  "Healthy",
+                                                         "impact":  "Medium",
+                                                         "confidence":  "Medium"
+                                                     },
+                            "scorePolicy":  {
+                                                "scoreEligible":  false,
+                                                "weight":  1,
+                                                "criticalPenaltyFraction":  1,
+                                                "warningPenaltyFraction":  0.5,
+                                                "informationPenaltyFraction":  0
+                                            }
+                        }
+                    ]
+}
