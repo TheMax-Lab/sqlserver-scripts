@@ -5,23 +5,17 @@
 </p>
 
 <p align="center">
-  <a href="https://www.microsoft.com/sql-server"><img alt="SQL Server" src="https://img.shields.io/badge/SQL%20Server-2016%2B-CC2927?logo=microsoftsqlserver&logoColor=white"></a>
-  <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
-  <img alt="T-SQL scripts" src="https://img.shields.io/badge/T--SQL%20scripts-26-informational">
-  <a href="https://github.com/TheMax-Lab/sqlserver-scripts/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/TheMax-Lab/sqlserver-scripts?style=flat"></a>
-
-  <a href="https://github.com/TheMax-Lab/sqlserver-scripts/releases/tag/v0.1.0">
+   <a href="https://github.com/TheMax-Lab/sqlserver-scripts/releases/tag/v0.1.0">
     <img src="https://img.shields.io/badge/SQL%20Server%20Diagnostics-v0.1.0-blue?style=for-the-badge" alt="SQL Server Diagnostics v0.1.0">
-  </a>
-  <a href="https://github.com/TheMax-Lab/sqlserver-scripts">
-    <img src="https://img.shields.io/github/stars/TheMax-Lab/sqlserver-scripts?style=for-the-badge" alt="GitHub Stars">
-  </a>
-  <a href="https://github.com/TheMax-Lab/sqlserver-scripts/blob/main/LICENSE">
-    <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="MIT License">
   </a>
   <a href="https://paypal.me/TheMaxLab">
     <img src="https://img.shields.io/badge/Support%20the%20Project-PayPal-0070ba?style=for-the-badge&logo=paypal&logoColor=white" alt="Support the project with PayPal">
   </a>
+<br/>
+  <a href="https://www.microsoft.com/sql-server"><img alt="SQL Server" src="https://img.shields.io/badge/SQL%20Server-2016%2B-CC2927?logo=microsoftsqlserver&logoColor=white"></a>
+  <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
+  <img alt="T-SQL scripts" src="https://img.shields.io/badge/T--SQL%20scripts-26-informational">
+  <a href="https://github.com/TheMax-Lab/sqlserver-scripts/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/TheMax-Lab/sqlserver-scripts?style=flat"></a> 
 </p>
 
 ---
@@ -71,9 +65,9 @@ No installer and no database-side deployment are required.
 
 After extracting the ZIP, run:
 
-&&&
+```
 SqlServerDiagnostics.exe
-&&&
+```
 
 ### 🖥️ Current compatibility
 
