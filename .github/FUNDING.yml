@@ -1,0 +1,6 @@
+# GitHub funding configuration
+#
+# Supported custom funding URL:
+# PayPal - https://paypal.me/TheMaxLab
+
+custom: ["https://paypal.me/TheMaxLab"]
