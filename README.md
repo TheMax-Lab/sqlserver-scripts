@@ -9,7 +9,146 @@
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
   <img alt="T-SQL scripts" src="https://img.shields.io/badge/T--SQL%20scripts-26-informational">
   <a href="https://github.com/TheMax-Lab/sqlserver-scripts/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/TheMax-Lab/sqlserver-scripts?style=flat"></a>
+
+  <a href="https://github.com/TheMax-Lab/sqlserver-scripts/releases/tag/v0.1.0">
+    <img src="https://img.shields.io/badge/SQL%20Server%20Diagnostics-v0.1.0-blue?style=for-the-badge" alt="SQL Server Diagnostics v0.1.0">
+  </a>
+  <a href="https://github.com/TheMax-Lab/sqlserver-scripts">
+    <img src="https://img.shields.io/github/stars/TheMax-Lab/sqlserver-scripts?style=for-the-badge" alt="GitHub Stars">
+  </a>
+  <a href="https://github.com/TheMax-Lab/sqlserver-scripts/blob/main/LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="MIT License">
+  </a>
+  <a href="https://paypal.me/TheMaxLab">
+    <img src="https://img.shields.io/badge/Support%20the%20Project-PayPal-0070ba?style=for-the-badge&logo=paypal&logoColor=white" alt="Support the project with PayPal">
+  </a>
 </p>
+
+---
+
+## 🚀 SQL Server Diagnostics — Desktop Tool
+
+This project is more than a collection of SQL scripts.
+
+The **SQL Server Diagnostics** desktop application brings together a curated set of SQL Server diagnostic checks into a single tool, helping you inspect database health, configuration, performance and potential issues without manually executing individual scripts.
+
+### 🔎 Analyze your SQL Server environment
+
+The current release includes:
+
+- **26 manifest-driven SQL Server diagnostic checks**
+- Health Check assessments
+- Findings and diagnostic execution status
+- Performance and query diagnostics
+- Index analysis
+- Database health checks
+- Blocking and wait analysis
+- Memory and TempDB diagnostics
+- Foreign Key and integrity checks
+- Schema analysis
+- HTML report export
+- JSON report export
+- Findings CSV export
+- Diagnostics CSV export
+- Windows Authentication
+- SQL Server Authentication
+- Saved connection profiles
+- Optional remembered SQL credentials protected using Windows DPAPI
+
+The application is designed around an **evidence-first** approach:
+
+> **Find the issue → understand the evidence → validate the recommendation → make an informed change.**
+
+### 📥 Download SQL Server Diagnostics
+
+**Latest release:**
+
+👉 [**SQL Server Diagnostics v0.1.0**](https://github.com/TheMax-Lab/sqlserver-scripts/releases/tag/v0.1.0)
+
+The current release is distributed as a **portable Windows x64 application**.
+
+No installer and no database-side deployment are required.
+
+After extracting the ZIP, run:
+
+&&&
+SqlServerDiagnostics.exe
+&&&
+
+### 🖥️ Current compatibility
+
+The `v0.1.0` release has been live-validated against:
+
+- SQL Server 2019 Express LocalDB
+- Engine version `15.0.4382.1`
+- Compatibility level `150`
+
+This validation does not certify every SQL Server version, edition, configuration, Azure SQL Database or Azure SQL Managed Instance.
+
+Additional environments will be progressively validated.
+
+---
+
+## ❤️ Support the Project
+
+If these scripts or the SQL Server Diagnostics tool are useful to you, consider supporting the project.
+
+This project is developed and maintained as an open-source initiative. Contributions help support:
+
+- New diagnostic checks
+- Improvements to the analysis engine
+- Better reports and visualization
+- Compatibility testing
+- Documentation
+- Bug fixes
+- New features for the desktop tool
+
+### ☕ Support via PayPal
+
+<p align="center">
+  <a href="https://paypal.me/TheMaxLab">
+    <img src="https://img.shields.io/badge/☕%20Support%20TheMax--Lab%20via%20PayPal-0070ba?style=for-the-badge&logo=paypal&logoColor=white" alt="Support TheMax-Lab via PayPal">
+  </a>
+</p>
+
+<p align="center">
+  <strong>Every contribution is appreciated and helps keep the project growing.</strong>
+</p>
+
+Support is completely voluntary and does not affect the availability or functionality of the software.
+
+You can also support the project by:
+
+- ⭐ Giving the repository a Star
+- 🐛 Reporting issues
+- 💡 Suggesting new diagnostics
+- 🔧 Contributing improvements
+- 📖 Improving documentation
+- 📢 Sharing the project with other SQL Server professionals
+
+---
+
+# 📚 SQL Server Diagnostic Scripts
+
+The repository contains a curated collection of **read-only SQL Server diagnostic scripts** for investigating:
+
+- Database health
+- Performance
+- Query execution
+- Blocking
+- Wait statistics
+- Memory pressure
+- TempDB
+- Indexes
+- Query Store
+- Backups
+- Database capacity
+- Statistics
+- Fragmentation
+- Referential integrity
+- Schema design
+
+---
 
 A curated collection of **26 read-only SQL Server scripts for DBAs** covering database health checks, performance tuning, blocking, Query Store, indexes, TempDB, integrity, backups, statistics, capacity, and schema design.
 
